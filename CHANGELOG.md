@@ -19,6 +19,20 @@ Each changelog entry is dated and documented clearly for transparency as part of
   - `CHANGELOG.md`
   - Feature plan, tech stack, contributing guidelines
 
+
+## [0.1.1] - 2025-07-17
+
+### Added
+ - Django project initialized with modular settings
+ - Environment loading via `version.json` (`local`, `staging`, `production`)
+ - Dockerized dev setup with:
+    - Django 5.0.6 + Postgres 15
+    - `docker-compose` for local dev
+    - `.env` file for secrets and DB config
+
+### Changed
+ - Refactored settings into `base.py`, `local.py`, and dynamic `__init__.py`
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
@@ -26,6 +40,14 @@ Each changelog entry is dated and documented clearly for transparency as part of
 These are all the major building blocks envisioned for the project, based on the full feature map. This list will evolve — some may change, combine, or be postponed — but everything here reflects the real, thoughtful intention behind the product.
 
 ---
+
+### User Management
+ - Login, Logout, Registration View
+ - Password Reset
+ - Profile View
+ - User Serializers / Forms
+ - Custom User Model
+ - Email verification or Social Login Logic
 
 ### 🗃 Global Cards Database
 
