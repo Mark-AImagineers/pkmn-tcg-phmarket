@@ -1,0 +1,14 @@
+<h2>Login</h2>
+
+{% if error %}
+    <div style="color: red;">{{ error  }}</div>
+{% endif %}
+
+<form method="post" hx-post="{% url 'login' %}" hx-target="#login-result" hx-swap="outerHTML">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+</form>
+
+<div id="login-result"></div>
+
