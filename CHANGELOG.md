@@ -33,6 +33,22 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Changed
  - Refactored settings into `base.py`, `local.py`, and dynamic `__init__.py`
 
+
+## [0.1.2] – 2025-07-18
+
+### Added
+- Custom user model with email-based login
+- Session-based login using Django + HTMX (form, service, view)
+- `/api/login/` and `/api/token/refresh/` DRF endpoints using SimpleJWT
+- API schema generation with drf-spectacular
+- Swagger UI available at `/api/docs/`
+- Version dynamically loaded from `version.json` into OpenAPI docs
+
+### Changed
+- Split `users/urls.py` (HTMX views) and `users/api_urls.py` (DRF API)
+
+
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)

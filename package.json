@@ -1,0 +1,21 @@
+{
+  "name": "pkmn-tcg-phmarket",
+  "version": "1.0.0",
+  "description": "**Catalogue, Trade, and Sell Pokémon cards with fellow Pinoys — fast, easy, and built with trust in mind.**\r > Built in public. Made by a Filipino collector, for Filipino collectors.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build:css": "npx tailwindcss -i ./static/css/input.css -o ./static/css/tailwind.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11",
+    "tailwindcss-cli": "^0.1.2"
+  }
+}
