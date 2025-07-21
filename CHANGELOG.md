@@ -52,6 +52,11 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Changed
 - Revamped login page styles and background gradients
 
+## [0.1.4] - 2025-07-21
+
+### Removed
+- Tailwind CSS and all Node-related files for a leaner Python-only stack
+
 
 
 ---
