@@ -127,7 +127,7 @@ Each changelog entry is dated and documented clearly for transparency as part of
 - Removed all session-based authentication logic
 - HTMX now sends JWT tokens with every request and `/api/me/` drives UI state
 
-## [0.1.16] - 2025-08-02
+## [0.2.0] - 2025-08-02
 
 ### Changed
 - Login endpoint now sets the refresh token in a secure HTTP-only cookie
