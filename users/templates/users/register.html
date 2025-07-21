@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #181818 url('{% static "img/pkmn-splash.svg" %}') center/contain no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
+        .register-box {
+            width: 100%;
+            max-width: 380px;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 1rem;
+            text-align: center;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 0.25rem;
+            margin-top: 0.25rem;
+        }
+        button {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: #4adf86;
+            color: #000;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #70e39d;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-box">
+        <h1>PKMN PH</h1>
+        <p>Create Account</p>
+        <p class="text-sm">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label for="email">Email</label>
+                {{ form.email }}
+            </div>
+            <div>
+                <label for="password1">Password</label>
+                {{ form.password1 }}
+            </div>
+            <div>
+                <label for="password2">Confirm Password</label>
+                {{ form.password2 }}
+            </div>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -83,6 +83,12 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Fixed
 - Removed trailing comma in `version.json` which caused startup failure
 
+## [0.1.9] - 2025-07-26
+
+### Added
+- Basic user registration with DRF endpoint
+- Registration form and page with success/error messages
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)

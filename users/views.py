@@ -1,7 +1,9 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views import View
-from users.forms import LoginForm
-from users.services.auth import login_user
+
+from users.forms import LoginForm, RegisterForm
+from users.services.auth import login_user, register_user
 
 
 class LoginView(View):
@@ -19,3 +21,21 @@ class LoginView(View):
         return render(
             request, "users/login.html", {"form": form, "error": "Invalid credentials"}
         )
+
+
+class RegisterView(View):
+    """Display and process the user registration form."""
+
+    def get(self, request):
+        form = RegisterForm()
+        return render(request, "users/register.html", {"form": form})
+
+    def post(self, request):
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            register_user(form.cleaned_data["email"], form.cleaned_data["password1"])
+            messages.success(request, "Registration successful. Please log in.")
+            return redirect("login")
+        for error in form.errors.values():
+            messages.error(request, error)
+        return render(request, "users/register.html", {"form": form})
