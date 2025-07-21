@@ -47,6 +47,11 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Changed
 - Split `users/urls.py` (HTMX views) and `users/api_urls.py` (DRF API)
 
+## [0.1.3] - 2025-07-19
+
+### Changed
+- Revamped login page styles and background gradients
+
 
 
 ---
