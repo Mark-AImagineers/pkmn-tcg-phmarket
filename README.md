@@ -102,9 +102,12 @@ values from your `.env` file.
 ### Authentication Flow
 
 1. Submit your login credentials to `/api/login/`.
-2. Store the returned `access` and `refresh` tokens in `localStorage`.
-3. All HTMX requests automatically include the `Authorization` header.
-4. Call `/api/me/` to fetch user info and update the UI.
+2. The response body contains an `access` token and the `refresh` token is set
+   in an **HttpOnly** cookie.
+3. Store the access token only in memory and send it in the
+   `Authorization: Bearer <token>` header for API calls.
+4. When the access token expires, call `/api/token/refresh/` to obtain a new
+   one. The backend reads the refresh token from the cookie.
 
 ## 🤝 Contributing
 
