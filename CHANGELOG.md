@@ -101,6 +101,12 @@ Each changelog entry is dated and documented clearly for transparency as part of
 - Reusable sidebar component displayed on most pages
 - Sidebar displays the authenticated user's email via `/api/me/`
 
+## [0.1.12] - 2025-07-29
+
+### Added
+- Header with user icon and greeting
+- `/profile/` page for logged-in users
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)

@@ -35,13 +35,50 @@
             padding: 1rem;
             width: 100%;
         }
+        .header {
+            margin-left: 200px;
+            width: calc(100% - 200px);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #f4f4f4;
+        }
+        .user-icon {
+            width: 32px;
+            height: 32px;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+    <header class="header">
+        <span id="user-greeting"></span>
+        <a href="/profile/" id="user-profile-link">
+            <img src="{% static 'img/user-icon.svg' %}" alt="User" class="user-icon"/>
+        </a>
+    </header>
     {% include 'core/_sidebar.html' %}
     <main>
         {% block content %}{% endblock %}
     </main>
     {% block extra_js %}{% endblock %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('access');
+            if (!token) return;
+            fetch('/api/me/', { headers: { 'Authorization': `Bearer ${token}` } })
+                .then(res => res.ok ? res.json() : null)
+                .then(data => {
+                    if (data) {
+                        const greeting = document.getElementById('user-greeting');
+                        const name = data.username || data.email;
+                        if (greeting) greeting.textContent = `Hello ${name}!`;
+                    }
+                })
+                .catch(() => {});
+        });
+    </script>
 </body>
 </html>

@@ -4,6 +4,8 @@ from django.views import View
 
 from users.forms import LoginForm, RegisterForm
 from users.services.auth import login_user, register_user
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
 
 
 class LoginView(View):
@@ -39,3 +41,9 @@ class RegisterView(View):
         for error in form.errors.values():
             messages.error(request, error)
         return render(request, "users/register.html", {"form": form})
+
+
+class ProfileView(LoginRequiredMixin, TemplateView):
+    """Display the logged-in user's profile."""
+
+    template_name = "users/profile.html"
