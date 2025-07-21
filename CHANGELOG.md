@@ -89,6 +89,11 @@ Each changelog entry is dated and documented clearly for transparency as part of
 - Basic user registration with DRF endpoint
 - Registration form and page with success/error messages
 
+## [0.1.10] - 2025-07-27
+
+### Added
+- `/api/me/` endpoint for retrieving the authenticated user's details
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
