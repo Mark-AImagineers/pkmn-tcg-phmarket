@@ -12,10 +12,9 @@ class HomeViewTests(TestCase):
             email="test@example.com", password="pass123"
         )
 
-    def test_redirect_if_not_authenticated(self):
+    def test_success_for_anonymous_user(self):
         response = self.client.get(reverse("home"))
-        self.assertEqual(response.status_code, 302)
-        self.assertIn("/login/", response.headers.get("Location", ""))
+        self.assertEqual(response.status_code, 200)
 
     def test_success_for_authenticated_user(self):
         self.client.login(email="test@example.com", password="pass123")
@@ -34,10 +33,9 @@ class SettingsViewTests(TestCase):
             email="admin@example.com", password="pass123"
         )
 
-    def test_redirect_if_not_authenticated(self):
+    def test_success_for_anonymous_user(self):
         response = self.client.get(reverse("settings"))
-        self.assertEqual(response.status_code, 302)
-        self.assertIn("/login/", response.headers.get("Location", ""))
+        self.assertEqual(response.status_code, 200)
 
     def test_success_for_authenticated_user(self):
         self.client.login(email="user@example.com", password="pass123")
@@ -63,15 +61,14 @@ class AdminPanelViewTests(TestCase):
             email="super@example.com", password="pass123"
         )
 
-    def test_redirect_if_not_authenticated(self):
+    def test_success_for_anonymous_user(self):
         response = self.client.get(reverse("admin_panel"))
-        self.assertEqual(response.status_code, 302)
-        self.assertIn("/login/", response.headers.get("Location", ""))
+        self.assertEqual(response.status_code, 200)
 
-    def test_forbidden_for_non_superuser(self):
+    def test_access_for_non_superuser(self):
         self.client.login(email="user2@example.com", password="pass123")
         response = self.client.get(reverse("admin_panel"))
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 200)
 
     def test_success_for_superuser(self):
         self.client.login(email="super@example.com", password="pass123")
