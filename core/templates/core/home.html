@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<!-- Main homepage content goes here -->
+{% endblock %}
+{% block extra_js %}
+<script>
+    (function() {
+        const token = localStorage.getItem('access');
+        if (!token) {
+            window.location.href = '/login/';
+            return;
+        }
+        fetch('/api/me/', { headers: { 'Authorization': `Bearer ${token}` } })
+            .then(res => {
+                if (res.status === 401) {
+                    window.location.href = '/login/';
+                }
+            });
+    })();
+</script>
+{% endblock %}
