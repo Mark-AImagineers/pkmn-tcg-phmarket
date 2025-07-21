@@ -72,12 +72,7 @@
                 </ul>
             {% endif %}
 
-            <form
-                method="post"
-                hx-post="{% url 'api_login' %}"
-                hx-swap="none"
-                hx-on="htmx:afterRequest: handleLogin(event)"
-            >
+            <form method="post">
                 {% csrf_token %}
                 <div>
                     <label for="email">Email</label>
@@ -91,28 +86,7 @@
 
                 <button type="submit">Login</button>
             </form>
-
-            <div id="login-result"></div>
         </div>
-
-        <script>
-            function handleLogin(e) {
-                if (e.detail.xhr.status === 200) {
-                    try {
-                        const data = JSON.parse(e.detail.xhr.responseText);
-                        if (data.access && data.refresh) {
-                            localStorage.setItem('access', data.access);
-                            localStorage.setItem('refresh', data.refresh);
-                            window.location.href = '/';
-                            return;
-                        }
-                    } catch (err) {
-                        // fall through
-                    }
-                }
-                document.querySelector('#login-result').innerText = 'Invalid credentials';
-            }
-        </script>
     </body>
 </html>
 

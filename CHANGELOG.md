@@ -116,6 +116,13 @@ Each changelog entry is dated and documented clearly for transparency as part of
 
 ---
 
+## [0.1.14] - 2025-07-31
+
+### Fixed
+- Session-based login now properly redirects to the homepage
+
+---
+
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
 
 These are all the major building blocks envisioned for the project, based on the full feature map. This list will evolve — some may change, combine, or be postponed — but everything here reflects the real, thoughtful intention behind the product.
