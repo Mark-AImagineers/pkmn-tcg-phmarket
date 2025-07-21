@@ -18,13 +18,11 @@
         </style>
     </head>
 
-    <body class="h-screen bg-foil flex items-center justify-center">
-        <div class="flex flex-col gap-4 backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl p-10 w-full max-w-md shadow-2xl text-white font-jersey text-center">
+    <body class="h-screen bg-foil bg-splash flex items-center justify-center">
+        <div class="flex flex-col gap-4 backdrop-blur-lg bg-black/40 border border-white/10 rounded-3xl p-10 w-full max-w-md shadow-2xl text-white font-jersey text-center">
             <h1 class="text-5xl font-bold tracking-wide mb-2">PKMN PH</h1>
             <p class="text-white/80 text-lg">Welcome Back</p>
-            <p class="text-sm text-white/50">Don’t have an account yet? <a href="#" class="underline">Sign Up</a></p>
-
-            <h1 class="text-4xl mb-6">Login</h1>
+            <p class="text-sm text-white/70">Don’t have an account yet? <a href="#" class="underline hover:no-underline">Sign Up</a></p>
 
             <form method="post" hx-post="{% url 'login' %}" hx-target="#login-result" hx-swap="outerHTML" class="space-y-4">
                 {% csrf_token %}
