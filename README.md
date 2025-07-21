@@ -71,7 +71,6 @@ This is the current and planned stack powering the project: (May still change in
 | Layer         | Tech                                  | Notes                                                                         |
 |---------------|---------------------------------------|-------------------------------------------------------------------------------|
 | Front End     | Django Templates + HTMX               | Fast, server-rendered UI with optional interactivity – no heavy JS            |
-|               | Tailwind CSS                          | Utility-first styling for consistent, responsive design                       |
 | API Layer     | Django REST Framework (DRF)           | Fuels API endpoints for HTMX calls, frontend features, and future FE clients  |
 | Back End      | Django (Python)                       | Core logic, routing, ORM, forms, and service layer logic                      |
 | Database      | PostgreSQL                            | Production-grade RDBMS with local/dev SQLite fallback if needed               |
