@@ -14,3 +14,5 @@ DATABASES = {
         "PORT": os.getenv("POSTGRES_PORT", "5432"),
     }
 }
+
+print(f"DATABASE: {DATABASES['default']['ENGINE']}")

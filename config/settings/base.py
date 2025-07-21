@@ -17,9 +17,10 @@ try:
 except Exception as e:
     raise RuntimeError(f"Unable to load details from version.json - {e}")
 
-print(f"App: {app_name}")
-print(f"Version: {ver}")
-print(f"Environment: {env}")
+if env == "local":
+    print(f"App: {app_name}")
+    print(f"Version: {ver}")
+    print(f"Environment: {env}")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
