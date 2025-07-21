@@ -78,6 +78,12 @@ Each changelog entry is dated and documented clearly for transparency as part of
 
 
 ---
+## [0.1.8] - 2025-07-25
+
+### Fixed
+- Removed trailing comma in `version.json` which caused startup failure
+
+---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
 
