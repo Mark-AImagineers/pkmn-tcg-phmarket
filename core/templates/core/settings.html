@@ -1,0 +1,10 @@
+{% extends 'core/base.html' %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<h1>Settings</h1>
+<ul>
+    {% if request.user.is_superuser %}
+    <li><a href="{% url 'admin_panel' %}">Admin Panel</a></li>
+    {% endif %}
+</ul>
+{% endblock %}
