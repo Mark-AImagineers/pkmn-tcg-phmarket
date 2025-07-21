@@ -52,29 +52,42 @@
         <h1>PKMN PH</h1>
         <p>Create Account</p>
         <p class="text-sm">Already have an account? <a href="{% url 'login' %}">Login</a></p>
-        {% if messages %}
-            <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-        <form method="post">
-            {% csrf_token %}
+        <div id="register-result"></div>
+        <form id="register-form">
             <div>
-                <label for="email">Email</label>
+                <label for="id_reg_email">Email</label>
                 {{ form.email }}
             </div>
             <div>
-                <label for="password1">Password</label>
+                <label for="id_password1">Password</label>
                 {{ form.password1 }}
             </div>
             <div>
-                <label for="password2">Confirm Password</label>
+                <label for="id_password2">Confirm Password</label>
                 {{ form.password2 }}
             </div>
             <button type="submit">Register</button>
         </form>
     </div>
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('id_reg_email').value;
+            const password = document.getElementById('id_password1').value;
+            const password2 = document.getElementById('id_password2').value;
+            const res = await fetch('/api/register/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password, password2 })
+            });
+            const resultEl = document.getElementById('register-result');
+            if (res.ok) {
+                resultEl.textContent = 'Registration successful. You can now log in.';
+            } else {
+                const data = await res.json();
+                resultEl.textContent = Object.values(data).join(' ');
+            }
+        });
+    </script>
 </body>
 </html>

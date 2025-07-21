@@ -1,49 +1,34 @@
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from django.views import View
+"""HTMX compatible views for the users app."""
 
-from users.forms import LoginForm, RegisterForm
-from users.services.auth import login_user, register_user
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 from django.views.generic import TemplateView
 
-
-class LoginView(View):
-    def get(self, request):
-        form = LoginForm()
-        return render(request, "users/login.html", {"form": form})
-
-    def post(self, request):
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data["email"]
-            password = form.cleaned_data["password"]
-            if login_user(request, email, password):
-                return redirect("/")  # replace later with actual homepage
-        return render(
-            request, "users/login.html", {"form": form, "error": "Invalid credentials"}
-        )
+from users.forms import LoginForm, RegisterForm
 
 
-class RegisterView(View):
-    """Display and process the user registration form."""
+class LoginView(TemplateView):
+    """Render the login page. Authentication handled via API."""
 
-    def get(self, request):
-        form = RegisterForm()
-        return render(request, "users/register.html", {"form": form})
+    template_name = "users/login.html"
 
-    def post(self, request):
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            register_user(form.cleaned_data["email"], form.cleaned_data["password1"])
-            messages.success(request, "Registration successful. Please log in.")
-            return redirect("login")
-        for error in form.errors.values():
-            messages.error(request, error)
-        return render(request, "users/register.html", {"form": form})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = LoginForm()
+        return context
 
 
-class ProfileView(LoginRequiredMixin, TemplateView):
-    """Display the logged-in user's profile."""
+class RegisterView(TemplateView):
+    """Render the registration page. Uses API endpoint for creation."""
+
+    template_name = "users/register.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = RegisterForm()
+        return context
+
+
+class ProfileView(TemplateView):
+    """User profile page. Data is fetched via the `/api/me/` endpoint."""
 
     template_name = "users/profile.html"

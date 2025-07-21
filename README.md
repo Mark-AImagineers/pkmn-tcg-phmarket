@@ -74,7 +74,7 @@ This is the current and planned stack powering the project: (May still change in
 | API Layer     | Django REST Framework (DRF)           | Fuels API endpoints for HTMX calls, frontend features, and future FE clients  |
 | Back End      | Django (Python)                       | Core logic, routing, ORM, forms, and service layer logic                      |
 | Database      | PostgreSQL                            | Production-grade RDBMS with local/dev SQLite fallback if needed               |
-| Auth          | Django Auth + DRF Tokens              | Built-in user auth with upgrade path to token or JWT auth                     |
+| Auth          | JWT (DRF SimpleJWT)                   | Tokens stored client-side and sent with every HTMX request                     |
 | Testing       | Pytest + pytest-django                | Simple, scalable testing framework for Django apps                            |
 | Dev Tools     | Docker + VSCode Dev Containers        | Containerized dev environment with editor-level integration                   |
 | Deployment    | Heroku                                | Easy fullstack hosting with CI/CD support                                     |
@@ -98,6 +98,13 @@ This project is maintained by a solo dev (ME) — primarily a Python backend dev
 
 The Django app will connect to the bundled Postgres service using the
 values from your `.env` file.
+
+### Authentication Flow
+
+1. Submit your login credentials to `/api/login/`.
+2. Store the returned `access` and `refresh` tokens in `localStorage`.
+3. All HTMX requests automatically include the `Authorization` header.
+4. Call `/api/me/` to fetch user info and update the UI.
 
 ## 🤝 Contributing
 
