@@ -141,6 +141,15 @@ pokemon_tcg_market_ph/
 
 ---
 
+### Authentication Approach
+
+- Use **JWT tokens** exclusively for user authentication.
+- Session-based mixins like `LoginRequiredMixin` are not used.
+- Frontend pages call `/api/me/` to determine the logged in user and render UI conditionally.
+- HTMX requests must include the `Authorization` header with the current JWT access token.
+
+---
+
 ### Testing & Formatting
 
 - Testing uses **pytest** + `pytest-django`.

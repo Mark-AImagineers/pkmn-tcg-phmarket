@@ -121,6 +121,12 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Fixed
 - Session-based login now properly redirects to the homepage
 
+## [0.1.15] - 2025-08-01
+
+### Changed
+- Removed all session-based authentication logic
+- HTMX now sends JWT tokens with every request and `/api/me/` drives UI state
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
