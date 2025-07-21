@@ -69,6 +69,12 @@ Each changelog entry is dated and documented clearly for transparency as part of
 - Login page now submits credentials to the DRF JWT endpoint via HTMX
 - Simplified login HTML and CSS to remove old Tailwind classes
 
+## [0.1.7] - 2025-07-24
+
+### Changed
+- Default Postgres host set to `db` for Docker Compose
+- Added `.env.example` and Docker setup notes in `README.md`
+
 
 
 ---
