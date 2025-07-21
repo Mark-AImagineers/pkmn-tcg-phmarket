@@ -70,7 +70,7 @@ This is the current and planned stack powering the project: (May still change in
 
 | Layer         | Tech                                  | Notes                                                                         |
 |---------------|---------------------------------------|-------------------------------------------------------------------------------|
-| Front End     | Django Templates + HTMX               | Fast, server-rendered UI with optional interactivity – no heavy JS            |
+| Front End     | Django Templates + HTMX + Vanilla CSS | Simple styles now, server-rendered UI with optional interactivity |
 | API Layer     | Django REST Framework (DRF)           | Fuels API endpoints for HTMX calls, frontend features, and future FE clients  |
 | Back End      | Django (Python)                       | Core logic, routing, ORM, forms, and service layer logic                      |
 | Database      | PostgreSQL                            | Production-grade RDBMS with local/dev SQLite fallback if needed               |
@@ -80,9 +80,8 @@ This is the current and planned stack powering the project: (May still change in
 | Deployment    | Heroku                                | Easy fullstack hosting with CI/CD support                                     |
 | AI / OCR      | OpenCV + YOLOv8 + Tesseract OCR       | Card scanning, object detection, and text recognition (future feature)        |
 | ML / Analytics| PyTorch + scikit-learn + Keras        | For future data analysis, collection valuation, and smart suggestions         |
-
-
-
+### Styling Approach
+Currently the project uses simple vanilla CSS for styling. Keeping things minimal helps us focus on functionality first. Front-end design and UI/UX improvements are welcome in future phases.
 ## 🧑‍💻 **About the Build**
 
 This project is maintained by a solo dev (ME) — primarily a Python backend developer, but capable of shipping fullstack. Most of the early focus will be on building solid backend systems and OCR tools before polishing the frontend. (OR whatever feels right at the moment😊)

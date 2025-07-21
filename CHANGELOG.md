@@ -57,6 +57,12 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Removed
 - Tailwind CSS and all Node-related files for a leaner Python-only stack
 
+## [0.1.5] - 2025-07-22
+
+### Changed
+- Switched styling approach to vanilla CSS
+- Updated documentation to reflect simple, clean design for early development
+
 
 
 ---
