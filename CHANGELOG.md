@@ -134,6 +134,11 @@ Each changelog entry is dated and documented clearly for transparency as part of
 - `/api/token/refresh/` reads the cookie and returns a new access token
 - Updated documentation to describe the improved token flow
 
+## [0.2.1] - 2025-08-03
+
+### Added
+- Logout button on the homepage to clear tokens and redirect to login
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
