@@ -88,7 +88,16 @@ This project is maintained by a solo dev (ME) — primarily a Python backend dev
 
 
 ## 🚀 Getting Started
-'---
+
+1. Copy `.env.example` to `.env` and tweak values if needed.
+2. Start the stack with Docker Compose:
+
+   ```bash
+   docker-compose up --build
+   ```
+
+The Django app will connect to the bundled Postgres service using the
+values from your `.env` file.
 
 ## 🤝 Contributing
 
