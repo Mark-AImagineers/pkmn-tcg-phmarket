@@ -57,19 +57,19 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Removed
 - Tailwind CSS and all Node-related files for a leaner Python-only stack
 
-## [0.1.5] - 2025-07-22
+## [0.1.5] - 2025-07-21
 
 ### Changed
 - Switched styling approach to vanilla CSS
 - Updated documentation to reflect simple, clean design for early development
 
-## [0.1.6] - 2025-07-23
+## [0.1.6] - 2025-07-21
 
 ### Changed
 - Login page now submits credentials to the DRF JWT endpoint via HTMX
 - Simplified login HTML and CSS to remove old Tailwind classes
 
-## [0.1.7] - 2025-07-24
+## [0.1.7] - 2025-07-21
 
 ### Changed
 - Default Postgres host set to `db` for Docker Compose
@@ -78,30 +78,30 @@ Each changelog entry is dated and documented clearly for transparency as part of
 
 
 ---
-## [0.1.8] - 2025-07-25
+## [0.1.8] - 2025-07-21
 
 ### Fixed
 - Removed trailing comma in `version.json` which caused startup failure
 
-## [0.1.9] - 2025-07-26
+## [0.1.9] - 2025-07-21
 
 ### Added
 - Basic user registration with DRF endpoint
 - Registration form and page with success/error messages
 
-## [0.1.10] - 2025-07-27
+## [0.1.10] - 2025-07-21
 
 ### Added
 - `/api/me/` endpoint for retrieving the authenticated user's details
 
-## [0.1.11] - 2025-07-28
+## [0.1.11] - 2025-07-21
 
 ### Added
 - Basic homepage restricted to logged-in users
 - Reusable sidebar component displayed on most pages
 - Sidebar displays the authenticated user's email via `/api/me/`
 
-## [0.1.12] - 2025-07-29
+## [0.1.12] - 2025-07-22
 
 ### Added
 - Header with user icon and greeting
@@ -109,32 +109,32 @@ Each changelog entry is dated and documented clearly for transparency as part of
 
 ---
 
-## [0.1.13] - 2025-07-30
+## [0.1.13] - 2025-07-22
 
 ### Added
 - Settings page with admin panel for superusers
 
 ---
 
-## [0.1.14] - 2025-07-31
+## [0.1.14] - 2025-07-22
 
 ### Fixed
 - Session-based login now properly redirects to the homepage
 
-## [0.1.15] - 2025-08-01
+## [0.1.15] - 2025-07-22
 
 ### Changed
 - Removed all session-based authentication logic
 - HTMX now sends JWT tokens with every request and `/api/me/` drives UI state
 
-## [0.2.0] - 2025-08-02
+## [0.2.0] - 2025-07-22
 
 ### Changed
 - Login endpoint now sets the refresh token in a secure HTTP-only cookie
 - `/api/token/refresh/` reads the cookie and returns a new access token
 - Updated documentation to describe the improved token flow
 
-## [0.2.1] - 2025-08-03
+## [0.2.1] - 2025-07-22
 
 ### Added
 - Logout button on the homepage to clear tokens and redirect to login
