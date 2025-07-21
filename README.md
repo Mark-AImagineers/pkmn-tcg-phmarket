@@ -92,6 +92,16 @@ This project is maintained by a solo dev (ME) — primarily a Python backend dev
 ## 🚀 Getting Started
 '---
 
+### Frontend Development
+
+1. Run `npm install` once to install dependencies.
+2. Start the Tailwind watcher with `npm run build:css`.
+3. In another terminal, run `python manage.py runserver`.
+
+While the watcher is running, changes to files in `static/css` or any template
+will automatically rebuild `static/css/tailwind.css` so you can refresh the
+browser and see updates immediately.
+
 ## 🤝 Contributing
 
 Contributions are super welcome — this project is being built in public, and I’d love help from fellow devs, designers, or collectors who want to make something cool for the PH Pokémon TCG scene.

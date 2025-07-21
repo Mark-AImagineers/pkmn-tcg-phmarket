@@ -1,24 +1,9 @@
-{% load static %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block title %}Login{% endblock %}
+{% block body_class %}h-screen bg-foil flex items-center justify-center{% endblock %}
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
-        <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
-        <link rel="stylesheet" href="{% static 'fonts/Jersey15.woff2' %}" as="font" type="font/woff2" crossorigin />
-        <style>
-            @font-face {
-                font-family: 'Jersey 15';
-                src: url("{% static 'fonts/Jersey15.woff2' %}") format('woff2');
-                font-display: swap;
-            }
-        </style>
-    </head>
-
-    <body class="h-screen bg-foil flex items-center justify-center">
+{% block content %}
         <div class="flex flex-col gap-4 backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl p-10 w-full max-w-md shadow-2xl text-white font-jersey text-center">
             <h1 class="text-5xl font-bold tracking-wide mb-2">PKMN PH</h1>
             <p class="text-white/80 text-lg">Welcome Back</p>
@@ -48,6 +33,4 @@
 
             <div id="login-result" class="mt-4"></div>
         </div>
-    </body>
-
-</html>
+{% endblock %}

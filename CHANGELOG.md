@@ -51,6 +51,19 @@ Each changelog entry is dated and documented clearly for transparency as part of
 
 ---
 
+## [0.1.3] – 2025-07-19
+
+### Added
+- Global `base.html` template and font import
+- Root templates directory in settings
+- Frontend development instructions in `README.md`
+
+### Changed
+- Login form view and service now include docstrings
+- Login page now extends the base template
+
+---
+
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
 
 These are all the major building blocks envisioned for the project, based on the full feature map. This list will evolve — some may change, combine, or be postponed — but everything here reflects the real, thoughtful intention behind the product.
