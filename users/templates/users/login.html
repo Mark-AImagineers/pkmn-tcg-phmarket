@@ -2,48 +2,110 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Login</title>
-        <link rel="stylesheet" href="{% static 'fonts/Jersey15.woff2' %}" as="font" type="font/woff2" crossorigin />
         <style>
-            @font-face {
-                font-family: 'Jersey 15';
-                src: url("{% static 'fonts/Jersey15.woff2' %}") format('woff2');
-                font-display: swap;
+            body {
+                margin: 0;
+                height: 100vh;
+                background: #181818 url('{% static "img/pkmn-splash.svg" %}')
+                    center/contain no-repeat;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: Arial, sans-serif;
+                color: #fff;
+            }
+
+            .login-box {
+                width: 100%;
+                max-width: 380px;
+                padding: 2rem;
+                background: rgba(0, 0, 0, 0.6);
+                border-radius: 1rem;
+                text-align: center;
+            }
+
+            .form-input {
+                width: 100%;
+                padding: 0.5rem;
+                border: 1px solid #ccc;
+                border-radius: 0.25rem;
+                margin-top: 0.25rem;
+            }
+
+            button {
+                width: 100%;
+                margin-top: 1rem;
+                padding: 0.5rem;
+                background: #4adf86;
+                color: #000;
+                border: none;
+                border-radius: 0.25rem;
+                cursor: pointer;
+                font-weight: bold;
+            }
+
+            button:hover {
+                background: #70e39d;
+            }
+
+            #login-result {
+                margin-top: 1rem;
+                color: #ffb4b4;
             }
         </style>
     </head>
 
-    <body class="h-screen bg-foil bg-splash flex items-center justify-center">
-        <div class="flex flex-col gap-4 backdrop-blur-lg bg-black/40 border border-white/10 rounded-3xl p-10 w-full max-w-md shadow-2xl text-white font-jersey text-center">
-            <h1 class="text-5xl font-bold tracking-wide mb-2">PKMN PH</h1>
-            <p class="text-white/80 text-lg">Welcome Back</p>
-            <p class="text-sm text-white/70">Don’t have an account yet? <a href="#" class="underline hover:no-underline">Sign Up</a></p>
+    <body>
+        <div class="login-box">
+            <h1>PKMN PH</h1>
+            <p>Welcome Back</p>
+            <p class="text-sm">Don’t have an account yet? <a href="#">Sign Up</a></p>
 
-            <form method="post" hx-post="{% url 'login' %}" hx-target="#login-result" hx-swap="outerHTML" class="space-y-4">
+            <form
+                method="post"
+                hx-post="{% url 'api_login' %}"
+                hx-swap="none"
+                hx-on="htmx:afterRequest: handleLogin(event)"
+            >
                 {% csrf_token %}
                 <div>
-                    <label for="email" class="block mb-1 text-sm">Email</label>
+                    <label for="email">Email</label>
                     {{ form.email }}
                 </div>
 
                 <div>
-                    <label for="password" class="block mb-1 text-sm">Password</label>
+                    <label for="password">Password</label>
                     {{ form.password }}
                 </div>
-                
-                <button
-                    type="submit"
-                    class="w-full bg-green-500 hover:bg-green-400 text-black py-2 px-4 rounded-md relative overflow-hidden transition btn-shimmer"
-                >
-                    <span class="z-10 relative">Login</span>
-                </button>
+
+                <button type="submit">Login</button>
             </form>
 
-            <div id="login-result" class="mt-4"></div>
+            <div id="login-result"></div>
         </div>
+
+        <script>
+            function handleLogin(e) {
+                if (e.detail.xhr.status === 200) {
+                    try {
+                        const data = JSON.parse(e.detail.xhr.responseText);
+                        if (data.access && data.refresh) {
+                            localStorage.setItem('access', data.access);
+                            localStorage.setItem('refresh', data.refresh);
+                            window.location.href = '/';
+                            return;
+                        }
+                    } catch (err) {
+                        // fall through
+                    }
+                }
+                document.querySelector('#login-result').innerText = 'Invalid credentials';
+            }
+        </script>
     </body>
 </html>
+
