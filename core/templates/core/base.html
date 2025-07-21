@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PKMN PH{% endblock %}</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            font-family: Arial, sans-serif;
+        }
+        .sidebar {
+            width: 200px;
+            background: #202020;
+            color: #fff;
+            min-height: 100vh;
+            padding-top: 1rem;
+            position: fixed;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar li {
+            margin: 1rem;
+        }
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+        }
+        main {
+            margin-left: 200px;
+            padding: 1rem;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    {% include 'core/_sidebar.html' %}
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

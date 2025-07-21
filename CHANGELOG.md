@@ -94,6 +94,13 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Added
 - `/api/me/` endpoint for retrieving the authenticated user's details
 
+## [0.1.11] - 2025-07-28
+
+### Added
+- Basic homepage restricted to logged-in users
+- Reusable sidebar component displayed on most pages
+- Sidebar displays the authenticated user's email via `/api/me/`
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
