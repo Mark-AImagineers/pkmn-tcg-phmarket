@@ -63,6 +63,12 @@ Each changelog entry is dated and documented clearly for transparency as part of
 - Switched styling approach to vanilla CSS
 - Updated documentation to reflect simple, clean design for early development
 
+## [0.1.6] - 2025-07-23
+
+### Changed
+- Login page now submits credentials to the DRF JWT endpoint via HTMX
+- Simplified login HTML and CSS to remove old Tailwind classes
+
 
 
 ---
