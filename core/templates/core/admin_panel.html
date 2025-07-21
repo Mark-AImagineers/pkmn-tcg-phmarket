@@ -3,6 +3,8 @@
 {% block content %}
 <h1>Admin Panel</h1>
 <p>Only superusers can see this page.</p>
+<button id="sendTestEmail">Send Test Email</button>
+<div id="emailResult"></div>
 {% endblock %}
 {% block extra_js %}
 <script>
@@ -22,6 +24,31 @@
             .catch(() => {
                 window.location.href = '/';
             });
+        const sendBtn = document.getElementById('sendTestEmail');
+        sendBtn.addEventListener('click', () => {
+            const password = prompt('Enter your password to send test email:');
+            if (!password) return;
+            fetch('/api/test-email/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ password })
+            })
+                .then(res => res.json().then(data => ({ status: res.status, data })))
+                .then(result => {
+                    const div = document.getElementById('emailResult');
+                    if (result.status === 200) {
+                        div.textContent = 'Email sent!';
+                    } else {
+                        div.textContent = result.data.detail || 'Error sending email';
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('emailResult').textContent = 'Error sending email';
+                });
+        });
     });
 </script>
 {% endblock %}

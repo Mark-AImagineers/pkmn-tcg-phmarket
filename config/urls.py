@@ -6,6 +6,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("core.urls")),  # homepage and other common pages
     path("api/", include("users.api_urls")),  # for DRF API endpoints like /api/login/
+    path("api/", include("core.api_urls")),
     path("", include("users.urls")),  # for HTMX views like /login/
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(

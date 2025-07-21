@@ -139,6 +139,11 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Added
 - Logout button on the homepage to clear tokens and redirect to login
 
+## [0.2.2] - 2025-07-23
+
+### Added
+- Admin panel button to send a test email using environment settings
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
