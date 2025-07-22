@@ -157,6 +157,11 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Added
 - Optional show password toggles on login, registration, and reset pages
 
+## [0.2.5] - 2025-07-23
+
+### Changed
+- Registration and password reset confirmation pages now redirect to the login page upon success
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
