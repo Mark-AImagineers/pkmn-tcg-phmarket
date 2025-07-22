@@ -3,6 +3,8 @@
 {% block content %}
 <h1>Manage Global Cards</h1>
 <p>Admin only card management interface.</p>
+<button id="syncCards">Sync Cards</button>
+<div id="syncResult"></div>
 {% endblock %}
 {% block extra_js %}
 <script>
@@ -22,6 +24,27 @@
             .catch(() => {
                 window.location.href = '/';
             });
+        const syncBtn = document.getElementById('syncCards');
+        syncBtn.addEventListener('click', () => {
+            fetch('/api/cards/sync/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(res => res.json().then(data => ({ status: res.status, data })))
+                .then(result => {
+                    const div = document.getElementById('syncResult');
+                    if (result.status === 200) {
+                        div.textContent = result.data.detail;
+                    } else {
+                        div.textContent = result.data.detail || 'Error syncing cards';
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('syncResult').textContent = 'Error syncing cards';
+                });
+        });
     });
 </script>
 {% endblock %}
