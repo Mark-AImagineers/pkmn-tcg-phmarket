@@ -112,6 +112,13 @@ Each changelog entry is dated and documented clearly for transparency as part of
 
 ---
 
+## [0.2.11] - 2025-07-23
+
+### Fixed
+- Card sync now stops when the PokéTCG API returns an empty page or 404, preventing errors on missing pages
+
+---
+
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
 
 These are all the major building blocks envisioned for the project, based on the full feature map. This list will evolve — some may change, combine, or be postponed — but everything here reflects the real, thoughtful intention behind the product.

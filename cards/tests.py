@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 from rest_framework.test import APIClient
+import requests
 
 from datetime import date
 
@@ -78,3 +79,47 @@ class ParseDateTests(TestCase):
 
     def test_invalid_returns_none(self):
         self.assertIsNone(_parse_date("invalid"))
+
+
+class GetAllCardIDsTests(TestCase):
+    """Tests for `get_all_card_ids`."""
+
+    @patch("cards.services.poketcg.requests.get")
+    def test_stops_on_empty_data(self, mock_get):
+        mock_get.side_effect = [
+            Mock(
+                status_code=200,
+                json=lambda: {"data": [{"id": "x"}], "totalCount": 999},
+                raise_for_status=lambda: None,
+            ),
+            Mock(
+                status_code=200,
+                json=lambda: {"data": []},
+                raise_for_status=lambda: None,
+            ),
+        ]
+
+        from cards.services.poketcg import get_all_card_ids
+
+        ids = get_all_card_ids()
+
+        self.assertEqual(ids, ["x"])
+        self.assertEqual(mock_get.call_count, 2)
+
+    @patch("cards.services.poketcg.requests.get")
+    def test_stops_on_404(self, mock_get):
+        first = Mock(
+            status_code=200,
+            json=lambda: {"data": [{"id": "x"}], "totalCount": 999},
+            raise_for_status=lambda: None,
+        )
+        second = Mock(status_code=404)
+        second.raise_for_status.side_effect = requests.HTTPError(response=second)
+        mock_get.side_effect = [first, second]
+
+        from cards.services.poketcg import get_all_card_ids
+
+        ids = get_all_card_ids()
+
+        self.assertEqual(ids, ["x"])
+        self.assertEqual(mock_get.call_count, 2)
