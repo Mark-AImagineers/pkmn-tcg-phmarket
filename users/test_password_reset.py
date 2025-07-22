@@ -25,6 +25,15 @@ class PasswordResetAPITests(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn("reset@example.com", mail.outbox[0].to)
 
+    def test_password_reset_unknown_email_returns_404(self):
+        response = self.client.post(
+            reverse("api_password_reset"), {"email": "missing@example.com"}
+        )
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(
+            response.json().get("detail"), "No account found with this email."
+        )
+
     def test_password_reset_confirm_updates_password(self):
         uid = urlsafe_base64_encode(force_bytes(self.user.pk))
         token = default_token_generator.make_token(self.user)

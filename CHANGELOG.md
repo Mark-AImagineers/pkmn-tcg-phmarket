@@ -162,6 +162,11 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Changed
 - Registration and password reset confirmation pages now redirect to the login page upon success
 
+## [0.2.6] - 2025-07-23
+
+### Added
+- Password reset now notifies when the email doesn't exist and links to registration
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
