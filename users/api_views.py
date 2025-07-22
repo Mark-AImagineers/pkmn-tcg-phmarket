@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
+from django.urls import reverse
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -116,8 +117,14 @@ class PasswordResetRequestAPIView(APIView):
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            # Return 200 even if user doesn't exist to avoid email enumeration
-            return Response(status=status.HTTP_200_OK)
+            register_url = reverse("register")
+            return Response(
+                {
+                    "detail": "No account found with this email.",
+                    "register_url": register_url,
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
         base_url = f"{request.scheme}://{request.get_host()}"
         send_password_reset_email(user, base_url)
