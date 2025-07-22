@@ -1,5 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
+from unittest.mock import patch
+from rest_framework.test import APIClient
 
 from users.models import User
 
@@ -29,3 +31,33 @@ class ManageGlobalCardsViewTests(TestCase):
         response = self.client.get(reverse("manage_global_cards"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Manage Global Cards")
+
+
+class SyncCardsAPITests(TestCase):
+    """Tests for the sync cards endpoint."""
+
+    def setUp(self) -> None:
+        self.superuser = User.objects.create_superuser(
+            email="admin2@example.com", password="pass123"
+        )
+        self.user = User.objects.create_user(
+            email="user2@example.com", password="pass123"
+        )
+        self.client = APIClient()
+
+    def test_requires_authentication(self):
+        response = self.client.post(reverse("api_sync_cards"))
+        self.assertEqual(response.status_code, 401)
+
+    def test_forbidden_for_non_superuser(self):
+        self.client.force_authenticate(user=self.user)
+        response = self.client.post(reverse("api_sync_cards"))
+        self.assertEqual(response.status_code, 403)
+
+    @patch("cards.api_views.sync_cards")
+    def test_sync_for_superuser(self, mock_sync):
+        mock_sync.return_value = 5
+        self.client.force_authenticate(user=self.superuser)
+        response = self.client.post(reverse("api_sync_cards"))
+        self.assertEqual(response.status_code, 200)
+        mock_sync.assert_called_once()

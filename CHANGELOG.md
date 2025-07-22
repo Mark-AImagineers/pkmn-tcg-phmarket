@@ -178,6 +178,12 @@ Each changelog entry is dated and documented clearly for transparency as part of
 - Card models for sets, cards, attacks, weaknesses, and pricing
 - Serializers for all card models
 
+## [0.2.9] - 2025-07-22
+
+### Added
+- Sync endpoint to update cards from PokéTCG
+- Button on manage cards page to trigger sync
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
