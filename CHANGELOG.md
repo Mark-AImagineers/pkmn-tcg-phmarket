@@ -52,142 +52,63 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Changed
 - Revamped login page styles and background gradients
 
+---
+
 ## [0.1.4] - 2025-07-21
 
 ### Removed
 - Tailwind CSS and all Node-related files for a leaner Python-only stack
 
-## [0.1.5] - 2025-07-21
-
 ### Changed
 - Switched styling approach to vanilla CSS
 - Updated documentation to reflect simple, clean design for early development
-
-## [0.1.6] - 2025-07-21
-
-### Changed
 - Login page now submits credentials to the DRF JWT endpoint via HTMX
 - Simplified login HTML and CSS to remove old Tailwind classes
-
-## [0.1.7] - 2025-07-21
-
-### Changed
 - Default Postgres host set to `db` for Docker Compose
 - Added `.env.example` and Docker setup notes in `README.md`
-
-
-
----
-## [0.1.8] - 2025-07-21
 
 ### Fixed
 - Removed trailing comma in `version.json` which caused startup failure
 
-## [0.1.9] - 2025-07-21
-
 ### Added
 - Basic user registration with DRF endpoint
 - Registration form and page with success/error messages
-
-## [0.1.10] - 2025-07-21
-
-### Added
 - `/api/me/` endpoint for retrieving the authenticated user's details
-
-## [0.1.11] - 2025-07-21
-
-### Added
 - Basic homepage restricted to logged-in users
 - Reusable sidebar component displayed on most pages
 - Sidebar displays the authenticated user's email via `/api/me/`
 
-## [0.1.12] - 2025-07-22
+---
+
+## [0.2.10] - 2025-07-22
 
 ### Added
 - Header with user icon and greeting
 - `/profile/` page for logged-in users
-
----
-
-## [0.1.13] - 2025-07-22
-
-### Added
 - Settings page with admin panel for superusers
-
----
-
-## [0.1.14] - 2025-07-22
+- Logout button on the homepage to clear tokens and redirect to login
+- Admin panel button to send a test email using environment settings
+- Password reset API and pages
+- Password reset now notifies when the email doesn't exist and links to registration
+- Skeleton cards app with admin view for managing global cards
+- Card models for sets, cards, attacks, weaknesses, and pricing
+- Serializers for all card models
+- Sync endpoint to update cards from PokéTCG
+- Button on manage cards page to trigger sync
 
 ### Fixed
 - Session-based login now properly redirects to the homepage
-
-## [0.1.15] - 2025-07-22
+- Password reset link parsing on confirmation page
+- Optional show password toggles on login, registration, and reset pages
+- Release dates from PokéTCG API now handle `YYYY/MM/DD` format correctly
 
 ### Changed
 - Removed all session-based authentication logic
 - HTMX now sends JWT tokens with every request and `/api/me/` drives UI state
-
-## [0.2.0] - 2025-07-22
-
-### Changed
 - Login endpoint now sets the refresh token in a secure HTTP-only cookie
 - `/api/token/refresh/` reads the cookie and returns a new access token
 - Updated documentation to describe the improved token flow
-
-## [0.2.1] - 2025-07-22
-
-### Added
-- Logout button on the homepage to clear tokens and redirect to login
-
-## [0.2.2] - 2025-07-23
-
-### Added
-- Admin panel button to send a test email using environment settings
-
-## [0.2.3] - 2025-07-23
-
-### Added
-- Password reset API and pages
-
-## [0.2.4] - 2025-07-23
-
-### Fixed
-- Password reset link parsing on confirmation page
-
-### Added
-- Optional show password toggles on login, registration, and reset pages
-
-## [0.2.5] - 2025-07-23
-
-### Changed
 - Registration and password reset confirmation pages now redirect to the login page upon success
-
-## [0.2.6] - 2025-07-23
-
-### Added
-- Password reset now notifies when the email doesn't exist and links to registration
-
-## [0.2.7] - 2025-07-23
-
-### Added
-- Skeleton cards app with admin view for managing global cards
-
-## [0.2.8] - 2025-07-23
-
-### Added
-- Card models for sets, cards, attacks, weaknesses, and pricing
-- Serializers for all card models
-
-## [0.2.9] - 2025-07-22
-
-### Added
-- Sync endpoint to update cards from PokéTCG
-- Button on manage cards page to trigger sync
-
-## [0.2.10] - 2025-07-23
-
-### Fixed
-- Release dates from PokéTCG API now handle `YYYY/MM/DD` format correctly
 
 ---
 
