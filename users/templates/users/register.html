@@ -92,7 +92,7 @@
             });
             const resultEl = document.getElementById('register-result');
             if (res.ok) {
-                resultEl.textContent = 'Registration successful. You can now log in.';
+                window.location.href = '{% url "login" %}';
             } else {
                 const data = await res.json();
                 resultEl.textContent = Object.values(data).join(' ');
