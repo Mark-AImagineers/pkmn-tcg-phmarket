@@ -65,11 +65,21 @@
             <div>
                 <label for="id_password2">Confirm Password</label>
                 {{ form.password2 }}
+                <label style="display:block;margin-top:0.25rem;">
+                    <input type="checkbox" id="show-register-passwords" /> Show passwords
+                </label>
             </div>
             <button type="submit">Register</button>
         </form>
     </div>
     <script>
+        document.getElementById('show-register-passwords').addEventListener('change', (e) => {
+            const p1 = document.getElementById('id_password1');
+            const p2 = document.getElementById('id_password2');
+            const type = e.target.checked ? 'text' : 'password';
+            p1.type = type;
+            p2.type = type;
+        });
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('id_reg_email').value;
