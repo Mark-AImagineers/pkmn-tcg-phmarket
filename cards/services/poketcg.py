@@ -42,25 +42,38 @@ def _parse_datetime(value: str | None) -> Optional[datetime]:
         return datetime.fromisoformat(value)
     except ValueError:
         try:
-            return datetime.combine(
-                date.fromisoformat(value), datetime.min.time()
-            )
+            return datetime.combine(date.fromisoformat(value), datetime.min.time())
         except ValueError:
             return None
 
 
 def get_all_card_ids() -> List[str]:
-    """Return all card IDs from the PokéTCG API."""
+    """Return all card IDs from the PokéTCG API.
+
+    The API sometimes returns a 404 or empty page before the reported
+    ``totalCount`` is reached. Stop fetching when a page contains no data
+    or when the request results in a 404 to avoid unnecessary errors.
+    """
 
     ids: List[str] = []
     page_size = 250
     page = 1
     while True:
         url = f"{API_BASE}/cards?page={page}&pageSize={page_size}"
-        res = requests.get(url, headers=HEADERS, timeout=30)
-        res.raise_for_status()
+        try:
+            res = requests.get(url, headers=HEADERS, timeout=30)
+            if res.status_code == 404:
+                break
+            res.raise_for_status()
+        except requests.HTTPError as exc:  # type: ignore[attr-defined]
+            if exc.response is not None and exc.response.status_code == 404:
+                break
+            raise
         data = res.json()
-        ids.extend(card["id"] for card in data.get("data", []))
+        records = data.get("data", [])
+        if not records:
+            break
+        ids.extend(card["id"] for card in records)
         total = int(data.get("totalCount", 0))
         if page * page_size >= total:
             break
@@ -112,9 +125,7 @@ def _update_set(data: dict[str, Any]) -> CardSet:
         "symbol_image": data.get("images", {}).get("symbol", ""),
         "logo_image": data.get("images", {}).get("logo", ""),
     }
-    obj, _ = CardSet.objects.update_or_create(
-        set_id=data.get("id"), defaults=defaults
-    )
+    obj, _ = CardSet.objects.update_or_create(set_id=data.get("id"), defaults=defaults)
     return obj
 
 
@@ -139,9 +150,7 @@ def _update_card(data: dict[str, Any], card_set: CardSet) -> Card:
         "large_image": data.get("images", {}).get("large"),
         "set": card_set,
     }
-    obj, _ = Card.objects.update_or_create(
-        card_id=data.get("id"), defaults=defaults
-    )
+    obj, _ = Card.objects.update_or_create(card_id=data.get("id"), defaults=defaults)
     return obj
 
 
