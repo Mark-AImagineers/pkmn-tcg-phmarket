@@ -184,6 +184,11 @@ Each changelog entry is dated and documented clearly for transparency as part of
 - Sync endpoint to update cards from PokéTCG
 - Button on manage cards page to trigger sync
 
+## [0.2.10] - 2025-07-23
+
+### Fixed
+- Release dates from PokéTCG API now handle `YYYY/MM/DD` format correctly
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)

@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import os
 from math import ceil
-from typing import Any, List
+from typing import Any, List, Optional
+from datetime import date, datetime
 
 import requests
 from dotenv import load_dotenv
@@ -17,6 +18,35 @@ load_dotenv()
 POKETCG_API = os.getenv("POKETCG_API", "")
 API_BASE = "https://api.pokemontcg.io/v2"
 HEADERS = {"X-Api-Key": POKETCG_API} if POKETCG_API else {}
+
+
+def _parse_date(value: str | None) -> Optional[date]:
+    """Return a ``date`` object from the API string value."""
+
+    if not value:
+        return None
+    value = value.replace("/", "-")
+    try:
+        return date.fromisoformat(value)
+    except ValueError:
+        return None
+
+
+def _parse_datetime(value: str | None) -> Optional[datetime]:
+    """Return a ``datetime`` object from the API string value."""
+
+    if not value:
+        return None
+    value = value.replace("/", "-").replace("Z", "+00:00")
+    try:
+        return datetime.fromisoformat(value)
+    except ValueError:
+        try:
+            return datetime.combine(
+                date.fromisoformat(value), datetime.min.time()
+            )
+        except ValueError:
+            return None
 
 
 def get_all_card_ids() -> List[str]:
@@ -77,12 +107,14 @@ def _update_set(data: dict[str, Any]) -> CardSet:
         "printed_total": data.get("printedTotal", 0),
         "total": data.get("total", 0),
         "ptcgo_code": data.get("ptcgoCode"),
-        "release_date": data.get("releaseDate"),
-        "updated_at": data.get("updatedAt"),
+        "release_date": _parse_date(data.get("releaseDate")),
+        "updated_at": _parse_datetime(data.get("updatedAt")),
         "symbol_image": data.get("images", {}).get("symbol", ""),
         "logo_image": data.get("images", {}).get("logo", ""),
     }
-    obj, _ = CardSet.objects.update_or_create(set_id=data.get("id"), defaults=defaults)
+    obj, _ = CardSet.objects.update_or_create(
+        set_id=data.get("id"), defaults=defaults
+    )
     return obj
 
 
@@ -107,7 +139,9 @@ def _update_card(data: dict[str, Any], card_set: CardSet) -> Card:
         "large_image": data.get("images", {}).get("large"),
         "set": card_set,
     }
-    obj, _ = Card.objects.update_or_create(card_id=data.get("id"), defaults=defaults)
+    obj, _ = Card.objects.update_or_create(
+        card_id=data.get("id"), defaults=defaults
+    )
     return obj
 
 
@@ -144,7 +178,7 @@ def _update_tcgplayer(card: Card, tcgplayer: dict[str, Any]) -> None:
 
     defaults = {
         "url": tcgplayer.get("url", ""),
-        "updated_at": tcgplayer.get("updatedAt"),
+        "updated_at": _parse_date(tcgplayer.get("updatedAt")),
     }
     prices = tcgplayer.get("prices", {}).get("holofoil", {})
     defaults.update(

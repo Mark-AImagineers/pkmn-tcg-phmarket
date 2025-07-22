@@ -3,6 +3,10 @@ from django.urls import reverse
 from unittest.mock import patch
 from rest_framework.test import APIClient
 
+from datetime import date
+
+from cards.services.poketcg import _parse_date
+
 from users.models import User
 
 
@@ -61,3 +65,16 @@ class SyncCardsAPITests(TestCase):
         response = self.client.post(reverse("api_sync_cards"))
         self.assertEqual(response.status_code, 200)
         mock_sync.assert_called_once()
+
+
+class ParseDateTests(TestCase):
+    """Tests for the `_parse_date` utility."""
+
+    def test_handles_slash_format(self):
+        self.assertEqual(_parse_date("2010/11/03"), date(2010, 11, 3))
+
+    def test_handles_dash_format(self):
+        self.assertEqual(_parse_date("2010-11-03"), date(2010, 11, 3))
+
+    def test_invalid_returns_none(self):
+        self.assertIsNone(_parse_date("invalid"))
