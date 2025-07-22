@@ -172,6 +172,12 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Added
 - Skeleton cards app with admin view for managing global cards
 
+## [0.2.8] - 2025-07-23
+
+### Added
+- Card models for sets, cards, attacks, weaknesses, and pricing
+- Serializers for all card models
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
