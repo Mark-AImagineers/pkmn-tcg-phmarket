@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% block title %}Manage Cards{% endblock %}
+{% block content %}
+<h1>Manage Global Cards</h1>
+<p>Admin only card management interface.</p>
+{% endblock %}
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const token = localStorage.getItem('access');
+        if (!token) {
+            window.location.href = '/login/';
+            return;
+        }
+        fetch('/api/me/', { headers: { 'Authorization': `Bearer ${token}` } })
+            .then(res => res.ok ? res.json() : null)
+            .then(data => {
+                if (!data || !data.is_superuser) {
+                    window.location.href = '/';
+                }
+            })
+            .catch(() => {
+                window.location.href = '/';
+            });
+    });
+</script>
+{% endblock %}

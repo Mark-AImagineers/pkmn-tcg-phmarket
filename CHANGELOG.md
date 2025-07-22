@@ -167,6 +167,11 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Added
 - Password reset now notifies when the email doesn't exist and links to registration
 
+## [0.2.7] - 2025-07-23
+
+### Added
+- Skeleton cards app with admin view for managing global cards
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)

@@ -3,6 +3,7 @@
 {% block content %}
 <h1>Admin Panel</h1>
 <p>Only superusers can see this page.</p>
+<p><a href="{% url 'manage_global_cards' %}">Manage Global Cards</a></p>
 <button id="sendTestEmail">Send Test Email</button>
 <div id="emailResult"></div>
 {% endblock %}
