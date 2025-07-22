@@ -26,7 +26,7 @@ def get_all_card_ids() -> List[str]:
     page_size = 250
     page = 1
     while True:
-        url = f"{API_BASE}/cards?page={page}&pageSize={page_size}&select=id"
+        url = f"{API_BASE}/cards?page={page}&pageSize={page_size}"
         res = requests.get(url, headers=HEADERS, timeout=30)
         res.raise_for_status()
         data = res.json()
