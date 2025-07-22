@@ -149,6 +149,14 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Added
 - Password reset API and pages
 
+## [0.2.4] - 2025-07-23
+
+### Fixed
+- Password reset link parsing on confirmation page
+
+### Added
+- Optional show password toggles on login, registration, and reset pages
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)

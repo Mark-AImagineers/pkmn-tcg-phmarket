@@ -75,12 +75,19 @@
                 <div>
                     <label for="id_password">Password</label>
                     {{ form.password }}
+                    <label style="display:block;margin-top:0.25rem;">
+                        <input type="checkbox" id="show-login-password" /> Show password
+                    </label>
                 </div>
 
                 <button type="submit">Login</button>
             </form>
         </div>
         <script>
+            document.getElementById('show-login-password').addEventListener('change', (e) => {
+                const input = document.getElementById('id_password');
+                input.type = e.target.checked ? 'text' : 'password';
+            });
             document.getElementById('login-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const email = document.getElementById('id_email').value;
