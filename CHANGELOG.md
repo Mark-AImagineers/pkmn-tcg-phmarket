@@ -144,6 +144,11 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Added
 - Admin panel button to send a test email using environment settings
 
+## [0.2.3] - 2025-07-23
+
+### Added
+- Password reset API and pages
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
