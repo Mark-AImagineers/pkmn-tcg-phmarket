@@ -21,6 +21,28 @@ class ManageGlobalCardsViewTests(TestCase):
         self.superuser = User.objects.create_superuser(
             email="admin@example.com", password="pass123"
         )
+        from cards.models import CardSet, Card
+        from datetime import date, datetime
+
+        self.card_set = CardSet.objects.create(
+            set_id="x1",
+            name="Example Set",
+            series="Ex",
+            printed_total=1,
+            total=1,
+            ptcgo_code="EX",
+            release_date=date.today(),
+            updated_at=datetime.utcnow(),
+            symbol_image="http://example.com/symbol.png",
+            logo_image="http://example.com/logo.png",
+        )
+        self.card = Card.objects.create(
+            card_id="x1-1",
+            name="Sample Card",
+            supertype="Pokémon",
+            number="1",
+            set=self.card_set,
+        )
 
     def test_success_for_anonymous_user(self):
         response = self.client.get(reverse("manage_global_cards"))
@@ -36,6 +58,11 @@ class ManageGlobalCardsViewTests(TestCase):
         response = self.client.get(reverse("manage_global_cards"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Manage Global Cards")
+
+    def test_lists_cards_in_context(self):
+        self.client.login(email="admin@example.com", password="pass123")
+        response = self.client.get(reverse("manage_global_cards"))
+        self.assertContains(response, "Sample Card")
 
 
 class SyncCardsAPITests(TestCase):
@@ -114,9 +141,7 @@ class GetAllCardIDsTests(TestCase):
             raise_for_status=lambda: None,
         )
         second = Mock(status_code=404)
-        second.raise_for_status.side_effect = requests.HTTPError(
-            response=second
-        )
+        second.raise_for_status.side_effect = requests.HTTPError(response=second)
         mock_get.side_effect = [first, second]
 
         from cards.services.poketcg import get_all_card_ids
@@ -133,9 +158,7 @@ class FetchCardDetailsTests(TestCase):
     @patch("cards.services.poketcg.requests.get")
     def test_returns_empty_on_404(self, mock_get):
         mock_res = Mock(status_code=404)
-        mock_res.raise_for_status.side_effect = requests.HTTPError(
-            response=mock_res
-        )
+        mock_res.raise_for_status.side_effect = requests.HTTPError(response=mock_res)
         mock_get.return_value = mock_res
 
         from cards.services.poketcg import fetch_card_details
