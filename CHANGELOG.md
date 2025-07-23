@@ -123,6 +123,11 @@ Each changelog entry is dated and documented clearly for transparency as part of
 - Graceful handling of missing cards when syncing from PokéTCG
 - Logging of card IDs that return 404 errors
 
+## [0.2.13] - 2025-07-25
+
+### Added
+- Table on manage global cards page listing all synced cards
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
