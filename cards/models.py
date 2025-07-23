@@ -85,3 +85,16 @@ class TCGPlayerPrice(models.Model):
 
     def __str__(self) -> str:
         return f"Prices for {self.card.name}"
+
+class CardRef(models.Model):
+    """
+    A reference to a card ID discovered from PokeTCG.io
+    """
+
+    card_id = models.CharField(max_length=50, unique=True)
+    discovered_at = models.DateTimeField(auto_now_add=True)
+    error = models.BooleanField(default=False)
+    last_checked = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.card_id
