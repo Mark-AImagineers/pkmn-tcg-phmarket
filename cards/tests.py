@@ -114,7 +114,9 @@ class GetAllCardIDsTests(TestCase):
             raise_for_status=lambda: None,
         )
         second = Mock(status_code=404)
-        second.raise_for_status.side_effect = requests.HTTPError(response=second)
+        second.raise_for_status.side_effect = requests.HTTPError(
+            response=second
+        )
         mock_get.side_effect = [first, second]
 
         from cards.services.poketcg import get_all_card_ids
@@ -123,3 +125,39 @@ class GetAllCardIDsTests(TestCase):
 
         self.assertEqual(ids, ["x"])
         self.assertEqual(mock_get.call_count, 2)
+
+
+class FetchCardDetailsTests(TestCase):
+    """Tests for `fetch_card_details`."""
+
+    @patch("cards.services.poketcg.requests.get")
+    def test_returns_empty_on_404(self, mock_get):
+        mock_res = Mock(status_code=404)
+        mock_res.raise_for_status.side_effect = requests.HTTPError(
+            response=mock_res
+        )
+        mock_get.return_value = mock_res
+
+        from cards.services.poketcg import fetch_card_details
+
+        data = fetch_card_details("abc")
+
+        self.assertEqual(data, {})
+        mock_get.assert_called_once()
+
+    @patch("cards.services.poketcg.requests.get")
+    def test_strips_whitespace(self, mock_get):
+        mock_res = Mock(status_code=200, json=lambda: {"data": {"id": "x"}})
+        mock_res.raise_for_status = lambda: None
+        mock_get.return_value = mock_res
+
+        from cards.services.poketcg import fetch_card_details
+
+        data = fetch_card_details(" x \n")
+
+        self.assertEqual(data["id"], "x")
+        mock_get.assert_called_once_with(
+            "https://api.pokemontcg.io/v2/cards/x",
+            headers={},
+            timeout=30,
+        )

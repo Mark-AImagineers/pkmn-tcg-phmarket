@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import logging
 from math import ceil
 from typing import Any, List, Optional
 from datetime import date, datetime
@@ -18,6 +19,8 @@ load_dotenv()
 POKETCG_API = os.getenv("POKETCG_API", "")
 API_BASE = "https://api.pokemontcg.io/v2"
 HEADERS = {"X-Api-Key": POKETCG_API} if POKETCG_API else {}
+
+logger = logging.getLogger(__name__)
 
 
 def _parse_date(value: str | None) -> Optional[date]:
@@ -42,7 +45,9 @@ def _parse_datetime(value: str | None) -> Optional[datetime]:
         return datetime.fromisoformat(value)
     except ValueError:
         try:
-            return datetime.combine(date.fromisoformat(value), datetime.min.time())
+            return datetime.combine(
+                date.fromisoformat(value), datetime.min.time()
+            )
         except ValueError:
             return None
 
@@ -82,11 +87,23 @@ def get_all_card_ids() -> List[str]:
 
 
 def fetch_card_details(card_id: str) -> dict[str, Any]:
-    """Return card details for a given card id."""
+    """Return card details for a given card id.
 
-    url = f"{API_BASE}/cards/{card_id}"
-    res = requests.get(url, headers=HEADERS, timeout=30)
-    res.raise_for_status()
+    Whitespace is stripped from the provided ``card_id``. ``404`` responses
+    are handled gracefully and return an empty dictionary.
+    """
+
+    clean_id = card_id.strip()
+    url = f"{API_BASE}/cards/{clean_id}"
+    try:
+        res = requests.get(url, headers=HEADERS, timeout=30)
+        if res.status_code == 404:
+            return {}
+        res.raise_for_status()
+    except requests.HTTPError as exc:  # type: ignore[attr-defined]
+        if exc.response is not None and exc.response.status_code == 404:
+            return {}
+        raise
     return res.json().get("data", {})
 
 
@@ -98,9 +115,11 @@ def sync_cards() -> int:
     existing = set(Card.objects.values_list("card_id", flat=True))
     missing = [cid for cid in ids if cid not in existing]
     created = 0
+    missing_ids: List[str] = []
     for cid in missing:
         data = fetch_card_details(cid)
         if not data:
+            missing_ids.append(cid)
             continue
         card_set = _update_set(data.get("set", {}))
         card = _update_card(data, card_set)
@@ -108,6 +127,8 @@ def sync_cards() -> int:
         _update_weaknesses(card, data.get("weaknesses", []))
         _update_tcgplayer(card, data.get("tcgplayer", {}))
         created += 1
+    if missing_ids:
+        logger.warning("Missing card IDs: %s", ", ".join(missing_ids))
     return created
 
 
@@ -125,7 +146,9 @@ def _update_set(data: dict[str, Any]) -> CardSet:
         "symbol_image": data.get("images", {}).get("symbol", ""),
         "logo_image": data.get("images", {}).get("logo", ""),
     }
-    obj, _ = CardSet.objects.update_or_create(set_id=data.get("id"), defaults=defaults)
+    obj, _ = CardSet.objects.update_or_create(
+        set_id=data.get("id"), defaults=defaults
+    )
     return obj
 
 
@@ -150,7 +173,9 @@ def _update_card(data: dict[str, Any], card_set: CardSet) -> Card:
         "large_image": data.get("images", {}).get("large"),
         "set": card_set,
     }
-    obj, _ = Card.objects.update_or_create(card_id=data.get("id"), defaults=defaults)
+    obj, _ = Card.objects.update_or_create(
+        card_id=data.get("id"), defaults=defaults
+    )
     return obj
 
 

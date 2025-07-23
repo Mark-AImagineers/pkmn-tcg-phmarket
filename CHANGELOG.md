@@ -117,6 +117,12 @@ Each changelog entry is dated and documented clearly for transparency as part of
 ### Fixed
 - Card sync now stops when the PokéTCG API returns an empty page or 404, preventing errors on missing pages
 
+## [0.2.12] - 2025-07-24
+
+### Added
+- Graceful handling of missing cards when syncing from PokéTCG
+- Logging of card IDs that return 404 errors
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
