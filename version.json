@@ -1,1 +1,5 @@
-{"app_name": "pkmn-tcg-phmarketplace", "version": "0.2.11", "environment": "local"}
+{
+    "app_name": "pkmn-tcg-phmarketplace",
+    "version": "0.2.12",
+    "environment": "local"
+}
