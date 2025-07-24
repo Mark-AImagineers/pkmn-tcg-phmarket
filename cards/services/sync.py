@@ -2,6 +2,7 @@ from cards.models import CardRef, Card, CardSet
 from django.db import transaction
 from cards.services.discovery import HEADERS
 import requests
+import time
 
 def get_missing_cards_ids() -> list[str]:
     """
@@ -23,27 +24,33 @@ def fetch_and_sync_cards(cards_ids: list[str]) -> int:
     synced = 0
 
     for card_id in cards_ids:
-        try:
-            res = requests.get(
-                f"https://api.pokemontcg.io/v2/cards/{card_id.strip()}",
-                headers=HEADERS,
-                timeout=60,
-            )
-            if res.status_code == 404:
-                print(f"❌ Card {card_id} not found (404). Skipping")
-                CardRef.objects.filter(card_id=card_id).update(error=True)
-                continue
-            
-            res.raise_for_status()
-            data = res.json().get("data", {})
-            if not data:
-                print(f"No data for {card_id}.")
-                continue
-        
-        except Exception as e:
-            print(f"❌ Failed to fetch card {card_id}: {e}")
+        retries = 0
+        while retries < 5:
+            try:
+                res = requests.get(
+                    f"https://api.pokemontcg.io/v2/cards/{card_id.strip()}",
+                    headers=HEADERS,
+                    timeout=60,
+                )
+                if res.status_code == 200:
+                    break
+                elif res.status_code == 404:
+                    print(f"❌ Card {card_id} not found (404). Skipping")
+                    CardRef.objects.filter(card_id=card_id).update(error=True)
+                    break
+                else:
+                    print(f"Card {card_id} failed with status {res.status_code}, retrying...")
+            except requests.RequestException as e:
+                print(f"Request error on card {card_id}: {e}, retrying...")
+
+            retries += 1
+            time.sleep(0.5 * (2 ** retries))
+
+        if retries == 5 or res.status_code != 200:
+            print(f"❌ Skipping card {card_id} after 5 retries")
             continue
 
+        data = res.json().get("data", {})
         #Save card in db here
         print(f"⬇️ Fetched Card: {data.get('name')} ({card_id})")
         # TODO: Parse and save to models
