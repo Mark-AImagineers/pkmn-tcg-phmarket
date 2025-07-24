@@ -3,7 +3,9 @@
 {% block content %}
 <h1>Manage Global Cards</h1>
 <p>Admin only card management interface.</p>
-<button id="syncCards">Sync Cards</button>
+<button id="syncAllCards">Sync All Cards</button>
+<button id="syncCardsByVolume">Sync Cards by Volume</button>
+<button id="discoverCards">Discover Cards in PokéTCG</button>
 <div id="syncResult"></div>
 <table>
     <thead>
@@ -46,9 +48,11 @@
             .catch(() => {
                 window.location.href = '/';
             });
-        const syncBtn = document.getElementById('syncCards');
-        syncBtn.addEventListener('click', () => {
-            fetch('/api/cards/sync/', {
+        const resultDiv = document.getElementById('syncResult');
+
+        const syncAllBtn = document.getElementById('syncAllCards');
+        syncAllBtn.addEventListener('click', () => {
+            fetch('/api/cards/sync-all/', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -56,15 +60,60 @@
             })
                 .then(res => res.json().then(data => ({ status: res.status, data })))
                 .then(result => {
-                    const div = document.getElementById('syncResult');
                     if (result.status === 200) {
-                        div.textContent = result.data.detail;
+                        resultDiv.textContent = result.data.detail;
                     } else {
-                        div.textContent = result.data.detail || 'Error syncing cards';
+                        resultDiv.textContent = result.data.detail || 'Error syncing cards';
                     }
                 })
                 .catch(() => {
-                    document.getElementById('syncResult').textContent = 'Error syncing cards';
+                    resultDiv.textContent = 'Error syncing cards';
+                });
+        });
+
+        const syncVolumeBtn = document.getElementById('syncCardsByVolume');
+        syncVolumeBtn.addEventListener('click', () => {
+            const limit = prompt('How many cards to sync?');
+            if (!limit) return;
+            fetch('/api/cards/sync-volume/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ limit: parseInt(limit, 10) })
+            })
+                .then(res => res.json().then(data => ({ status: res.status, data })))
+                .then(result => {
+                    if (result.status === 200) {
+                        resultDiv.textContent = result.data.detail;
+                    } else {
+                        resultDiv.textContent = result.data.detail || 'Error syncing cards';
+                    }
+                })
+                .catch(() => {
+                    resultDiv.textContent = 'Error syncing cards';
+                });
+        });
+
+        const discoverBtn = document.getElementById('discoverCards');
+        discoverBtn.addEventListener('click', () => {
+            fetch('/api/cards/discover/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(res => res.json().then(data => ({ status: res.status, data })))
+                .then(result => {
+                    if (result.status === 200) {
+                        resultDiv.textContent = result.data.detail;
+                    } else {
+                        resultDiv.textContent = result.data.detail || 'Error discovering cards';
+                    }
+                })
+                .catch(() => {
+                    resultDiv.textContent = 'Error discovering cards';
                 });
         });
     });
