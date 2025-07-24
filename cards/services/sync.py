@@ -79,6 +79,10 @@ def fetch_and_sync_cards(cards_ids: list[str]) -> int:
             },
         )
 
+        if Card.objects.filter(card_id=card_id).exists():
+            print(f"⚠️ Card {card_id} already exists. Skipping.")
+            continue
+
         card_obj = Card.objects.create(
             card_id=data["id"],
             name=data["name"],
