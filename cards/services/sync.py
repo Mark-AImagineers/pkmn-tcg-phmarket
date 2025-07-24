@@ -51,7 +51,44 @@ def fetch_and_sync_cards(cards_ids: list[str]) -> int:
             continue
 
         data = res.json().get("data", {})
-        #Save card in db here
+
+        #parse and save CardSet
+        set_data = data.get("set", {})
+        set_obj, _ = CardSet.objects.get_or_create(
+            set_id=set_data["id"],
+            defaults={
+                "name": set_data["name"],
+                "series": set_data["series"],
+                "printed_total": set_data.get("printedTotal", 0),
+                "total": set_data.get("total", 0),
+                "ptcgo_code": set_data.get("ptcgoCode"),
+                "release_date": set_data.get("releaseDate"),
+                "updated_at": set_data.get("updatedAt"),
+                "symbol_image": set_data.get("images", {}).get("symbol"),
+                "logo_image": set_data.get("images", {}).get("logo"),
+            },
+        )
+
+        card_obj = Card.objects.create(
+            card_id=data["id"],
+            name=data["name"],
+            supertype=data.get("supertype", ""),
+            subtypes=data.get("subtypes"),
+            hp=data.get("hp"),
+            types=data.get("types"),
+            evolves_to=data.get("evolvesTo"),
+            rules=data.get("rules"),
+            retreat_cost=data.get("retreatCost"),
+            converted_retreat_cost=data.get("convertedRetreatCost"),
+            number=data["number"],
+            artist=data.get("artist"),
+            rarity=data.get("rarity"),
+            national_pokedex_numbers=data.get("nationalPokedexNumbers"),
+            small_image=data.get("images", {}).get("small"),
+            large_image=data.get("images", {}).get("large"),
+            set=set_obj,
+        )
+
         print(f"⬇️ Fetched Card: {data.get('name')} ({card_id})")
         # TODO: Parse and save to models
 
