@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
-from .services.poketcg import sync_cards
 from .services.sync import get_missing_cards_ids, fetch_and_sync_cards
 from .services.discovery import discover_all_cards_ids, get_cardref_count
 
@@ -22,7 +21,8 @@ class SyncCardsAPIView(APIView):
         user: User = request.user
         if not user.is_superuser:
             return Response({"detail": "Forbidden"}, status=status.HTTP_403_FORBIDDEN)
-        created = sync_cards()
+        ids = get_missing_cards_ids()
+        created = fetch_and_sync_cards(ids)
         return Response({"detail": f"Synced {created} cards"})
 
 
