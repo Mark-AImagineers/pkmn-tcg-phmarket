@@ -1,8 +1,18 @@
 from cards.models import CardRef, Card, CardSet
 from django.db import transaction
 from cards.services.discovery import HEADERS
+from datetime import datetime
 import requests
 import time
+
+def _parse_date(value: str):
+    try:
+        return datetime.strptime(value, "%Y-%m-%d").date()
+    except ValueError:
+        try:
+            return datetime.strptime(value, "%Y/%m/%d").date()
+        except ValueError:
+            return None
 
 def get_missing_cards_ids() -> list[str]:
     """
@@ -62,8 +72,8 @@ def fetch_and_sync_cards(cards_ids: list[str]) -> int:
                 "printed_total": set_data.get("printedTotal", 0),
                 "total": set_data.get("total", 0),
                 "ptcgo_code": set_data.get("ptcgoCode"),
-                "release_date": set_data.get("releaseDate"),
-                "updated_at": set_data.get("updatedAt"),
+                "release_date": _parse_date(set_data.get("releaseDate", "")),
+                "updated_at": _parse_date(set_data.get("updatedAt", "")),
                 "symbol_image": set_data.get("images", {}).get("symbol"),
                 "logo_image": set_data.get("images", {}).get("logo"),
             },

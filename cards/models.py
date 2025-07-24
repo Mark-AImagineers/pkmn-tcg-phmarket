@@ -11,7 +11,7 @@ class CardSet(models.Model):
     total = models.IntegerField()
     ptcgo_code = models.CharField(max_length=20, null=True, blank=True)
     release_date = models.DateField()
-    updated_at = models.DateTimeField()
+    updated_at = models.DateTimeField(null=True, blank=True)
     symbol_image = models.URLField()
     logo_image = models.URLField()
 

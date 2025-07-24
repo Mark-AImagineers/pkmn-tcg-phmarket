@@ -112,21 +112,15 @@ Each changelog entry is dated and documented clearly for transparency as part of
 
 ---
 
-## [0.2.11] - 2025-07-23
+## [0.2.14] - 2025-07-24
 
 ### Fixed
-- Card sync now stops when the PokéTCG API returns an empty page or 404, preventing errors on missing pages
+- 404 error on sync - fixed with longer timer and retry logic
 
-## [0.2.12] - 2025-07-24
-
-### Added
-- Graceful handling of missing cards when syncing from PokéTCG
-- Logging of card IDs that return 404 errors
-
-## [0.2.13] - 2025-07-25
-
-### Added
-- Table on manage global cards page listing all synced cards
+### Changed
+- Redid the PokeTCG logic, split into discovery and sync logics
+- CardRef model created to sync card ids first (discovery)
+- Sync logic now runs through DB check before calling API endpoint
 
 ---
 
