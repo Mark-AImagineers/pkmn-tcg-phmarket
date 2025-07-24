@@ -99,8 +99,22 @@ def fetch_and_sync_cards(cards_ids: list[str]) -> int:
             set=set_obj,
         )
 
+        for atk in data.get("attacks", []):
+            card_obj.attacks.create(
+                name=atk.get("name"),
+                cost=atk.get("cost"),
+                converted_energy_cost=atk.get("convertedEnergyCost", 0),
+                damage=atk.get("damage", ""),
+                text=atk.get("text"),
+            )
+
+        for weak in data.get ("weaknesses", []):
+            card_obj.weaknesses.create(
+                type=weak.get("type", ""),
+                value=weak.get("value", ""),
+            )
+
         print(f"⬇️ Fetched Card: {data.get('name')} ({card_id})")
-        # TODO: Parse and save to models
 
         synced += 1
     
