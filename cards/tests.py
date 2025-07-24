@@ -6,7 +6,7 @@ import requests
 
 from datetime import date
 
-from cards.services.poketcg import _parse_date
+from cards.services.sync import _parse_date
 
 from users.models import User
 
@@ -86,13 +86,16 @@ class SyncCardsAPITests(TestCase):
         response = self.client.post(reverse("api_sync_cards"))
         self.assertEqual(response.status_code, 403)
 
-    @patch("cards.api_views.sync_cards")
-    def test_sync_for_superuser(self, mock_sync):
-        mock_sync.return_value = 5
+    @patch("cards.api_views.get_missing_cards_ids")
+    @patch("cards.api_views.fetch_and_sync_cards")
+    def test_sync_for_superuser(self, mock_fetch, mock_get_ids):
+        mock_fetch.return_value = 5
+        mock_get_ids.return_value = ["x"]
         self.client.force_authenticate(user=self.superuser)
         response = self.client.post(reverse("api_sync_cards"))
         self.assertEqual(response.status_code, 200)
-        mock_sync.assert_called_once()
+        mock_get_ids.assert_called_once()
+        mock_fetch.assert_called_once_with(["x"])
 
 
 class ParseDateTests(TestCase):
@@ -106,81 +109,3 @@ class ParseDateTests(TestCase):
 
     def test_invalid_returns_none(self):
         self.assertIsNone(_parse_date("invalid"))
-
-
-class GetAllCardIDsTests(TestCase):
-    """Tests for `get_all_card_ids`."""
-
-    @patch("cards.services.poketcg.requests.get")
-    def test_stops_on_empty_data(self, mock_get):
-        mock_get.side_effect = [
-            Mock(
-                status_code=200,
-                json=lambda: {"data": [{"id": "x"}], "totalCount": 999},
-                raise_for_status=lambda: None,
-            ),
-            Mock(
-                status_code=200,
-                json=lambda: {"data": []},
-                raise_for_status=lambda: None,
-            ),
-        ]
-
-        from cards.services.poketcg import get_all_card_ids
-
-        ids = get_all_card_ids()
-
-        self.assertEqual(ids, ["x"])
-        self.assertEqual(mock_get.call_count, 2)
-
-    @patch("cards.services.poketcg.requests.get")
-    def test_stops_on_404(self, mock_get):
-        first = Mock(
-            status_code=200,
-            json=lambda: {"data": [{"id": "x"}], "totalCount": 999},
-            raise_for_status=lambda: None,
-        )
-        second = Mock(status_code=404)
-        second.raise_for_status.side_effect = requests.HTTPError(response=second)
-        mock_get.side_effect = [first, second]
-
-        from cards.services.poketcg import get_all_card_ids
-
-        ids = get_all_card_ids()
-
-        self.assertEqual(ids, ["x"])
-        self.assertEqual(mock_get.call_count, 2)
-
-
-class FetchCardDetailsTests(TestCase):
-    """Tests for `fetch_card_details`."""
-
-    @patch("cards.services.poketcg.requests.get")
-    def test_returns_empty_on_404(self, mock_get):
-        mock_res = Mock(status_code=404)
-        mock_res.raise_for_status.side_effect = requests.HTTPError(response=mock_res)
-        mock_get.return_value = mock_res
-
-        from cards.services.poketcg import fetch_card_details
-
-        data = fetch_card_details("abc")
-
-        self.assertEqual(data, {})
-        mock_get.assert_called_once()
-
-    @patch("cards.services.poketcg.requests.get")
-    def test_strips_whitespace(self, mock_get):
-        mock_res = Mock(status_code=200, json=lambda: {"data": {"id": "x"}})
-        mock_res.raise_for_status = lambda: None
-        mock_get.return_value = mock_res
-
-        from cards.services.poketcg import fetch_card_details
-
-        data = fetch_card_details(" x \n")
-
-        self.assertEqual(data["id"], "x")
-        mock_get.assert_called_once_with(
-            "https://api.pokemontcg.io/v2/cards/x",
-            headers={},
-            timeout=30,
-        )
