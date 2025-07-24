@@ -26,7 +26,7 @@ def discover_all_cards_ids():
             BASE_URL,
             params={"page":1, "pageSize":1},
             headers=HEADERS,
-            timeout=30,
+            timeout=60,
         )
         res.raise_for_status()
         total_count = res.json().get("totalCount", 0)
@@ -39,7 +39,7 @@ def discover_all_cards_ids():
         return
 
     max_pages = math.ceil(total_count / PAGE_SIZE)
-    print(f"🔍 Discovered total {total_count} cards acress {max_pages} pages.")
+    print(f"🔍 Discovered total {total_count} cards across {max_pages} pages.")
 
 
 
@@ -52,7 +52,7 @@ def discover_all_cards_ids():
                     BASE_URL,
                     params={"page": page, "pageSize": PAGE_SIZE},
                     headers=HEADERS,
-                    timeout=30,
+                    timeout=60,
                 )
                 if res.status_code == 200:
                     break # success
@@ -62,7 +62,7 @@ def discover_all_cards_ids():
                 print(f"Request error on page {page}: {e}, retrying...")
 
             retries +=1
-            time.sleep(0.5)
+            time.sleep(0.5 * (2 ** retries)) #exponential backoff
 
         if retries == 5:
             print(f"❌ Skipping page {page} after 5 failed retries.")
@@ -90,3 +90,10 @@ def discover_all_cards_ids():
                 exists += 1
 
         print(f"📦 Page {page}: ✅ {inserted} new, ⚠️ {exists} already existed, ❌ {skipped} skipped")
+
+def get_cardref_count() -> int:
+    """
+    Returns the total number of card IDs discovered and saved in CardRef
+    """
+    return CardRef.objects.count()
+
