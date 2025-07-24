@@ -122,6 +122,17 @@ Each changelog entry is dated and documented clearly for transparency as part of
 - CardRef model created to sync card ids first (discovery)
 - Sync logic now runs through DB check before calling API endpoint
 
+## [0.2.15] - 2025-07-25
+
+### Added
+- Admin page now provides buttons to:
+  - discover card IDs from PokéTCG
+  - sync all missing cards
+  - sync a limited number of cards
+
+### Changed
+- New API endpoints for the updated card discovery and sync logic
+
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)
