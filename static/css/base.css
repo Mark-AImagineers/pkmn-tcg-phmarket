@@ -4,11 +4,15 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .main-layout {
     display: flex;
-    height: calc(100vh - 52px); /* 100vh minus height of header */
+    height: calc(100vh - 60px); /* full viewport minus header */
+    margin-top: 60px; /* offset for fixed header */
+    overflow: hidden;
 }
 
 /* ========================
@@ -19,9 +23,10 @@ body {
     background: #202020;
     color: #fff;
     padding-top: 1rem;
-    min-height: 100%;
+    height: 100%;
     z-index: 10;
-    position: relative
+    position: relative;
+    overflow-y: auto;
 }
 
 .sidebar-user {
@@ -66,8 +71,11 @@ body {
     padding: 0 1.5rem;
     box-sizing: border-box;
     border-bottom: 1px solid #ccc;
-    z-index: 1;
-    position: relative;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 .user-info {
@@ -123,4 +131,6 @@ main {
     flex: 1;
     padding: 2rem 3rem;
     box-sizing: border-box;
+    overflow-y: auto;
+    height: 100%;
 }
