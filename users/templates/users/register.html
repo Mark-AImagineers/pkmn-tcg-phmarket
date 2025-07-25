@@ -2,102 +2,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
     <title>Register</title>
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            background: #181818 url('{% static "img/pkmn-splash.svg" %}') center/contain no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: Arial, sans-serif;
-            color: #fff;
-        }
-        .register-box {
-            width: 100%;
-            max-width: 380px;
-            padding: 2rem;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 1rem;
-            text-align: center;
-        }
-        .form-input {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 0.25rem;
-            margin-top: 0.25rem;
-        }
-        button {
-            width: 100%;
-            margin-top: 1rem;
-            padding: 0.5rem;
-            background: #4adf86;
-            color: #000;
-            border: none;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        button:hover {
-            background: #70e39d;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 </head>
 <body>
-    <div class="register-box">
-        <h1>PKMN PH</h1>
-        <p>Create Account</p>
-        <p class="text-sm">Already have an account? <a href="{% url 'login' %}">Login</a></p>
-        <div id="register-result"></div>
+    <div class="auth-box">
+        <h2>Register</h2>
         <form id="register-form">
             <div>
-                <label for="id_reg_email">Email</label>
-                {{ form.email }}
+                <label for="username">Username</label><br>
+                <input type="text" id="username" name="username" class="form-input" required>
             </div>
             <div>
-                <label for="id_password1">Password</label>
-                {{ form.password1 }}
+                <label for="email">Email</label><br>
+                <input type="email" id="email" name="email" class="form-input" required>
             </div>
             <div>
-                <label for="id_password2">Confirm Password</label>
-                {{ form.password2 }}
-                <label style="display:block;margin-top:0.25rem;">
-                    <input type="checkbox" id="show-register-passwords" /> Show passwords
-                </label>
+                <label for="password">Password</label><br>
+                <input type="password" id="password" name="password" class="form-input" required>
             </div>
-            <button type="submit">Register</button>
+            <button type="submit">Create Account</button>
         </form>
+        <div id="register-result"></div>
+        <div class="auth-link">
+            <a href="/login/">Back to Login</a>
+        </div>
     </div>
-    <script>
-        document.getElementById('show-register-passwords').addEventListener('change', (e) => {
-            const p1 = document.getElementById('id_password1');
-            const p2 = document.getElementById('id_password2');
-            const type = e.target.checked ? 'text' : 'password';
-            p1.type = type;
-            p2.type = type;
-        });
-        document.getElementById('register-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('id_reg_email').value;
-            const password = document.getElementById('id_password1').value;
-            const password2 = document.getElementById('id_password2').value;
-            const res = await fetch('/api/register/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password, password2 })
-            });
-            const resultEl = document.getElementById('register-result');
-            if (res.ok) {
-                window.location.href = '{% url "login" %}';
-            } else {
-                const data = await res.json();
-                resultEl.textContent = Object.values(data).join(' ');
-            }
-        });
-    </script>
+
+    <script src="{% static 'js/register.js' %}"></script>
 </body>
 </html>

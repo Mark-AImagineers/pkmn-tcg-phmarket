@@ -3,8 +3,12 @@
 ======================== */
 body {
     margin: 0;
-    display: flex;
     font-family: Arial, sans-serif;
+}
+
+.main-layout {
+    display: flex;
+    height: calc(100vh - 52px); /* 100vh minus height of header */
 }
 
 /* ========================
@@ -14,9 +18,10 @@ body {
     width: 200px;
     background: #202020;
     color: #fff;
-    min-height: 100vh;
     padding-top: 1rem;
-    position: fixed;
+    min-height: 100%;
+    z-index: 10;
+    position: relative
 }
 
 .sidebar-user {
@@ -49,32 +54,73 @@ body {
 }
 
 /* ========================
-   MAIN CONTENT AREA
-======================== */
-main {
-    margin-left: 200px;
-    padding: 2rem 3rem;
-    width: calc(100% - 200px);
-    max-width: 1200px;
-    margin-inline: auto;
-    box-sizing: border-box;
-}
-/* ========================
-   HEADER
+   HEADER (Topbar)
 ======================== */
 .header {
-    margin-left: 200px;
-    width: calc(100% - 200px);
+    width: 100%;
+    height: 60px;
+    background: #9b9a9a;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 0.5rem 1rem;
-    background: #f4f4f4;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ccc;
+    z-index: 1;
+    position: relative;
 }
 
-.user-icon {
-    width: 32px;
-    height: 32px;
-    margin-left: 0.5rem;
-    cursor: pointer;
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.2;
+}
+
+.user-email {
+    font-size: 0.75rem;
+    color: #444;
+}
+
+.welcome-msg {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #222;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0 0 2px rgba(0,0,0,0.1);
+}
+
+.welcome-msg {
+    font-weight: bold;
+}
+
+
+/* ========================
+   MAIN CONTENT AREA
+======================== */
+main {
+    flex: 1;
+    padding: 2rem 3rem;
+    box-sizing: border-box;
 }

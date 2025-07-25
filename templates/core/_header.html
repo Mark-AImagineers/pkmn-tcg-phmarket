@@ -1,6 +1,13 @@
+{% load static %}
+
 <header class="header">
-    <span id="user-greeting"></span>
-    <a href="/profile/" id="user-profile-link">
-        <img src="{% static 'img/user-icon.svg' %}" alt="User" class="user-icon"/>
-    </a>
+    <div class="user-info">
+        <div class="user-text">
+            <div id="user-email" class="user-email"></div>
+            <div id="user-name" class="welcome-msg"></div>
+        </div>
+        <a href="/profile/">
+            <img src="{% static 'img/user-icon.svg' %}" alt="User" class="user-avatar"/>
+        </a>
+    </div>
 </header>

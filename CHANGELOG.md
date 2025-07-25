@@ -122,17 +122,45 @@ Each changelog entry is dated and documented clearly for transparency as part of
 - CardRef model created to sync card ids first (discovery)
 - Sync logic now runs through DB check before calling API endpoint
 
-## [0.2.15] - 2025-07-25
+## [0.2.17] - 2025-07-25
 
 ### Added
 - Admin page now provides buttons to:
   - discover card IDs from PokéTCG
   - sync all missing cards
   - sync a limited number of cards
+- Reusable `base.html` layout with header and sidebar includes
+- `/static/css/base.css` with clean layout structure (sidebar, header, content)
+- `/static/js/auth.js` for shared auth greeting + HTMX token injection
+- `/static/js/logout.js` for consistent logout logic
+- Home page now uses the new layout and includes logout functionality
+- Unified base layout with full-width topbar and fixed sidebar using Flexbox
+- `core/_header.html` partial to display user email, name, and avatar in the header
+- `static/css/base.css` updated with clear layout zones (header, sidebar, main)
+- `auth.css` created to style all auth-related pages (glassmorphic dark theme)
+- Shared token logic centralized in `auth.js` for greeting + protection
 
 ### Changed
 - New API endpoints for the updated card discovery and sync logic
+- Sidebar and header extracted into partials: `_sidebar.html` and `_header.html`
+- Settings updated to include global `templates/` folder in `TEMPLATES['DIRS']`
+- `base.html` now wraps content in `.main-layout` with `header + sidebar + main`
+- Header restyled with:
+  - `#d9d9d9` background
+  - Small email text, bold welcome text
+  - Avatar with white circular border
+- Sidebar layered above topbar via `z-index`
+- Redirect logic added to `/api/me/` fetch to handle expired JWTs and fallback to login
+- `home.html` now uses new layout and logout flow
+- `login.html`, `register.html`, and `password_reset_confirm.html` now use shared `auth.css` and clean markup
 
+### Fixed
+- Template load error caused by `{% load static %}` above `{% extends %}` in `home.html`
+- Timeout behavior when token fetch fails — now auto-redirects to `/login/`
+
+### Note
+- This marks the start of the new front-end foundation for all MVP features
+- Pages are now modular, readable, and style-consistent.
 ---
 
 ## 📌 Planned Development Milestones (High-Level, Non-To-Do)

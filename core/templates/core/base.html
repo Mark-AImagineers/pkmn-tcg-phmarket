@@ -10,12 +10,14 @@
 </head>
 <body>
     {% include 'core/_header.html' %}
-    {% include 'core/_sidebar.html' %}
-    <main>
-        {% block content %}{% endblock %}
-    </main>
-    {% block extra_js %}{% endblock %}
+    <div class="main-layout">
+        {% include 'core/_sidebar.html' %}
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+    </div>
 
+    {% block extra_js %}{% endblock %}
     <script src="{% static 'js/auth.js' %}"></script>
 </body>
 </html>
