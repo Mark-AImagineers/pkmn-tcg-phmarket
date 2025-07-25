@@ -1,33 +1,13 @@
 {% extends 'core/base.html' %}
 {% block title %}Home{% endblock %}
-{% block content %}
-<!-- Main homepage content goes here -->
-<button id="logout-btn">Logout</button>
-{% endblock %}
-{% block extra_js %}
-<script>
-    (function() {
-        const token = localStorage.getItem('access');
-        if (!token) {
-            window.location.href = '/login/';
-            return;
-        }
-        fetch('/api/me/', { headers: { 'Authorization': `Bearer ${token}` } })
-            .then(res => {
-                if (res.status === 401) {
-                    window.location.href = '/login/';
-                }
-            });
 
-        const logoutBtn = document.getElementById('logout-btn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', async () => {
-                await fetch('/api/logout/', { method: 'POST' });
-                localStorage.removeItem('access');
-                localStorage.removeItem('refresh');
-                window.location.href = '/login/';
-            });
-        }
-    })();
-</script>
+{% block content %}
+    <h1>Welcome to PKMN PH</h1>
+    <p>This is your dashboard homepage. You’re logged in.</p>
+
+    <button id="logout-btn">Logout</button>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/logout.js' %}"></script>
 {% endblock %}

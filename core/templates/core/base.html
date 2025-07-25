@@ -5,87 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}PKMN PH{% endblock %}</title>
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            font-family: Arial, sans-serif;
-        }
-        .sidebar {
-            width: 200px;
-            background: #202020;
-            color: #fff;
-            min-height: 100vh;
-            padding-top: 1rem;
-            position: fixed;
-        }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-        .sidebar li {
-            margin: 1rem;
-        }
-        .sidebar a {
-            color: #fff;
-            text-decoration: none;
-        }
-        main {
-            margin-left: 200px;
-            padding: 1rem;
-            width: 100%;
-        }
-        .header {
-            margin-left: 200px;
-            width: calc(100% - 200px);
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 0.5rem 1rem;
-            background: #f4f4f4;
-        }
-        .user-icon {
-            width: 32px;
-            height: 32px;
-            margin-left: 0.5rem;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
 </head>
 <body>
-    <header class="header">
-        <span id="user-greeting"></span>
-        <a href="/profile/" id="user-profile-link">
-            <img src="{% static 'img/user-icon.svg' %}" alt="User" class="user-icon"/>
-        </a>
-    </header>
+    {% include 'core/_header.html' %}
     {% include 'core/_sidebar.html' %}
     <main>
         {% block content %}{% endblock %}
     </main>
     {% block extra_js %}{% endblock %}
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const token = localStorage.getItem('access');
-            if (!token) return;
-            fetch('/api/me/', { headers: { 'Authorization': `Bearer ${token}` } })
-                .then(res => res.ok ? res.json() : null)
-                .then(data => {
-                    if (data) {
-                        const greeting = document.getElementById('user-greeting');
-                        const name = data.username || data.email;
-                        if (greeting) greeting.textContent = `Hello ${name}!`;
-                    }
-                })
-                .catch(() => {});
-        });
 
-        document.body.addEventListener('htmx:configRequest', (event) => {
-            const token = localStorage.getItem('access');
-            if (token) {
-                event.detail.headers['Authorization'] = `Bearer ${token}`;
-            }
-        });
-    </script>
+    <script src="{% static 'js/auth.js' %}"></script>
 </body>
 </html>

@@ -1,29 +1,12 @@
 <div class="sidebar">
-    <div id="sidebar-user" style="padding-left:1rem;"></div>
-    <ul>
+    <div class="sidebar-user" id="sidebar-user"></div>
+    <ul class="sidebar-nav">
         <li><a href="/">Home</a></li>
         <li><a href="/search/">Search</a></li>
         <li><a href="/marketplace/">Marketplace</a></li>
         <li><a href="/social/">Social</a></li>
         <li><a href="/portfolio/">Portfolio</a></li>
         <li><a href="/settings/">Settings</a></li>
-        <li><a href="/notifications/">Notification</a></li>
+        <li><a href="/notifications/">Notifications</a></li>
     </ul>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const token = localStorage.getItem('access');
-        if (!token) return;
-        fetch('/api/me/', {
-            headers: { 'Authorization': `Bearer ${token}` }
-        })
-        .then(res => res.ok ? res.json() : null)
-        .then(data => {
-            if (data && data.email) {
-                const el = document.getElementById('sidebar-user');
-                if (el) el.textContent = data.email;
-            }
-        })
-        .catch(() => {});
-    });
-</script>
