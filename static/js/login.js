@@ -16,9 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(res => res.json())
         .then(data => {
-            if (data.access && data.refresh) {
+            if (data.access) {
                 localStorage.setItem("access", data.access);
-                localStorage.setItem("refresh", data.refresh);
                 window.location.href = "/";
             } else {
                 result.textContent = data.detail || "Login failed.";
