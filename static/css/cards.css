@@ -1,0 +1,59 @@
+/* ========================
+   MANAGE GLOBAL CARDS PAGE
+======================== */
+
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.25rem;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: #444;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    margin-right: 0.75rem;
+    border: none;
+    background: #4a90e2;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #3a78c2;
+}
+
+#syncResult {
+    margin-top: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* TABLE STYLE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+}
+
+thead th {
+    background: #f0f0f0;
+    font-weight: bold;
+    padding: 0.75rem;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+}
+
+tbody td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+tbody tr:hover {
+    background: #f9f9f9;
+}

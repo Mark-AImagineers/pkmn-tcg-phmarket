@@ -1,5 +1,11 @@
 {% extends 'core/base.html' %}
+{% load static %}
 {% block title %}Manage Cards{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cards.css' %}">
+{% endblock %}
+
 {% block content %}
 <h1>Manage Global Cards</h1>
 <p>Admin only card management interface.</p>
@@ -7,6 +13,9 @@
 <button id="syncCardsByVolume">Sync Cards by Volume</button>
 <button id="discoverCards">Discover Cards in PokéTCG</button>
 <div id="syncResult"></div>
+<br>
+<p>Total Cards: {{ cards|length }}</p>
+<br>
 <table>
     <thead>
         <tr>
