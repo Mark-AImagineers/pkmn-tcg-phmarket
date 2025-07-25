@@ -25,13 +25,14 @@ def get_missing_cards_ids() -> list[str]:
     missing_ids = set(ref_ids) - set(fetched_ids)
     return list(missing_ids)
 
-def fetch_and_sync_cards(cards_ids: list[str]) -> int:
+def fetch_and_sync_cards(cards_ids: list[str]) -> dict:
     """
     Fetches full card data from PokeTCG and saves it into the database.
     Returns number of cards successfully created
     """
-
     synced = 0
+    skipped = 0
+    errored = 0
 
     for card_id in cards_ids:
         retries = 0
@@ -58,6 +59,7 @@ def fetch_and_sync_cards(cards_ids: list[str]) -> int:
 
         if retries == 5 or res.status_code != 200:
             print(f"❌ Skipping card {card_id} after 5 retries")
+            errored += 1
             continue
 
         data = res.json().get("data", {})
@@ -81,6 +83,7 @@ def fetch_and_sync_cards(cards_ids: list[str]) -> int:
 
         if Card.objects.filter(card_id=card_id).exists():
             print(f"⚠️ Card {card_id} already exists. Skipping.")
+            skipped += 1
             continue
 
         card_obj = Card.objects.create(
@@ -122,4 +125,8 @@ def fetch_and_sync_cards(cards_ids: list[str]) -> int:
 
         synced += 1
     
-    return synced
+    return {
+        "synced": synced,
+        "skipped": skipped,
+        "errored": errored,
+    }

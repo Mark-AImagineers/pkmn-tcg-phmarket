@@ -49,11 +49,20 @@ class SyncCardsByVolumeAPIView(APIView):
         user: User = request.user
         if not user.is_superuser:
             return Response({"detail": "Forbidden"}, status=status.HTTP_403_FORBIDDEN)
+        
         limit = int(request.data.get("limit", 0))
         ids = get_missing_cards_ids()
         ids = ids[:limit] if limit > 0 else ids
-        created = fetch_and_sync_cards(ids)
-        return Response({"detail": f"Synced {created} cards"})
+
+        result = fetch_and_sync_cards(ids)
+
+        return Response({
+            "synced": result["synced"],
+            "skipped": result["skipped"],
+            "errored": result["errored"],
+            "total_attempted": len(ids),
+            "message": f"✅ Synced {result['synced']} | ⚠️ Skipped {result['skipped']} | ❌ Errors {result['errored']}"
+        })
 
 
 class DiscoverCardsAPIView(APIView):
