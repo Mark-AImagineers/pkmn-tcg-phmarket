@@ -275,3 +275,8 @@ These are all the major building blocks envisioned for the project, based on the
 ### Fixed
 - Login page now handles cookie-based refresh token correctly
 
+## [0.2.19] - 2025-07-25
+
+### Fixed
+- Sidebar and header now stay fixed while the main content scrolls
+
