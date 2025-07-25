@@ -17,10 +17,11 @@ body {
 
 .main-layout {
     display: flex;
-    height: calc(100vh - 60px); /* 100vh minus height of header */
-    overflow: hidden
+    width: 100vw;
+    margin-top: 60px;
+    overflow: hidden;
+    height: calc(100vh - 60px);
 }
-
 /* ========================
    SIDEBAR
 ======================== */
@@ -68,14 +69,20 @@ body {
    HEADER (Topbar)
 ======================== */
 .header {
+    width: 100%;
     height: 60px;
-    background: #f4f4f4;
+    background: #9b9a9a;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
     box-sizing: border-box;
-    z-index: 1;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 .user-info {
@@ -131,14 +138,6 @@ main {
     flex: 1;
     overflow-y: auto;
     padding: 2rem 3rem;
-    box-sizing: border-box;
     background: #fff;
-}
-
-.page-wrapper {
-    margin-left: 200px;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: calc(100% - 200px);
+    min-width: 0;
 }
