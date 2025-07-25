@@ -269,3 +269,9 @@ These are all the major building blocks envisioned for the project, based on the
 - CI/CD deployment to Heroku
 
 ---
+
+## [0.2.18] - 2025-07-25
+
+### Fixed
+- Login page now handles cookie-based refresh token correctly
+
